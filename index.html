@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dhanmark Lunop | Portfolio</title>
+    <meta name="description" content="Portfolio of Dhanmark Lunop, IT Student and DOST Scholar from Surigao City.">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        /* =========================================
+           Base Theme and Typography
+        ========================================= */
+        :root {
+            --primary: #2563eb;
+            --accent: #1d4ed8;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --bg-body: #edf2f9;
+            --bg-section: #ffffff;
+            --bg-alt: #f5f8fd;
+            --hero-from: #eef5ff;
+            --hero-to: #ffffff;
+            --card-bg: #ffffff;
+            --card-border: #d8e1ef;
+            --card-shadow: 0 12px 30px rgba(15, 23, 42, 0.09);
+            --card-shadow-hover: 0 18px 38px rgba(15, 23, 42, 0.14);
+            --pill-bg: #e8f0ff;
+            --pill-text: #1e3a8a;
+            --pill-border: #cfe0ff;
+            --nav-bg: rgba(255, 255, 255, 0.86);
+            --nav-link-hover: #eef4ff;
+            --shot-from: #eaf1ff;
+            --shot-to: #e8f8fb;
+            --shot-border: #9fb7e7;
+            --input-bg: #f8fbff;
+            --focus-ring: rgba(37, 99, 235, 0.24);
+        }
+
+        [data-bs-theme="dark"] {
+            --primary: #7ba2ff;
+            --accent: #a4c0ff;
+            --text-main: #e5ecf6;
+            --text-muted: #9fb0cb;
+            --bg-body: #0b1220;
+            --bg-section: #101a2f;
+            --bg-alt: #0d1628;
+            --hero-from: #0f1d35;
+            --hero-to: #0b1220;
+            --card-bg: #141f35;
+            --card-border: #2b3e60;
+            --card-shadow: 0 16px 34px rgba(2, 8, 23, 0.52);
+            --card-shadow-hover: 0 20px 40px rgba(2, 8, 23, 0.6);
+            --pill-bg: #1f2f4d;
+            --pill-text: #c7dbff;
+            --pill-border: #344d78;
+            --nav-bg: rgba(11, 18, 32, 0.86);
+            --nav-link-hover: #1a2a45;
+            --shot-from: #1f314f;
+            --shot-to: #1a3348;
+            --shot-border: #45639b;
+            --input-bg: #1a2844;
+            --focus-ring: rgba(123, 162, 255, 0.28);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-main);
+            background: radial-gradient(circle at 10% 0%, rgba(37, 99, 235, 0.12), transparent 32%), var(--bg-body);
+        }
+
+        .section-title {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-main);
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            max-width: 720px;
+        }
+
+        .section-wrap {
+            padding-top: 5.25rem;
+            padding-bottom: 5.25rem;
+        }
+
+        .section-surface {
+            background-color: var(--bg-section);
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-alt {
+            background-color: var(--bg-alt);
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        /* =========================================
+           Navbar
+        ========================================= */
+        .nav-shell {
+            backdrop-filter: blur(12px);
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--card-border);
+            box-shadow: 0 6px 22px rgba(15, 23, 42, 0.08);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: var(--text-main);
+        }
+
+        .nav-link {
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 0.5rem;
+            padding: 0.45rem 0.7rem;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus-visible {
+            color: var(--text-main);
+            background-color: var(--nav-link-hover);
+        }
+
+        .mode-toggle {
+            border: 1px solid var(--card-border);
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            font-weight: 600;
+            border-radius: 0.7rem;
+            padding: 0.45rem 0.75rem;
+        }
+
+        .mode-toggle:hover {
+            background-color: var(--bg-alt);
+            color: var(--text-main);
+            border-color: var(--primary);
+        }
+
+        [data-bs-theme="dark"] .navbar-toggler {
+            border-color: #3a517c;
+        }
+
+        [data-bs-theme="dark"] .navbar-toggler-icon {
+            filter: invert(1) brightness(1.5);
+        }
+
+        /* =========================================
+           Hero
+        ========================================= */
+        .hero {
+            background: linear-gradient(180deg, var(--hero-from) 0%, var(--hero-to) 100%);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .hero-name {
+            font-size: clamp(2rem, 4vw, 3.25rem);
+            font-weight: 700;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            color: var(--text-main);
+        }
+
+        .hero-role {
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .hero-intro {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 620px;
+        }
+
+        .profile-card {
+            border: 1px solid var(--card-border);
+            border-radius: 1.1rem;
+            background-color: var(--card-bg);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+
+        .profile-card img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border: 1px solid var(--card-border);
+        }
+
+        .profile-card p {
+            color: var(--text-main);
+        }
+
+        /* =========================================
+           Cards and Badges
+        ========================================= */
+        .custom-card {
+            border: 1px solid var(--card-border);
+            border-radius: 1rem;
+            background: var(--card-bg);
+            box-shadow: var(--card-shadow);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+
+        .custom-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .skill-badge {
+            background-color: var(--pill-bg);
+            color: var(--pill-text);
+            border: 1px solid var(--pill-border);
+            font-weight: 600;
+        }
+
+        .project-shot {
+            height: 190px;
+            border-radius: 0.75rem;
+            border: 1px dashed var(--shot-border);
+            background: linear-gradient(135deg, var(--shot-from), var(--shot-to));
+            color: var(--text-muted);
+            font-weight: 600;
+            overflow: hidden;
+        }
+
+        .project-shot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .btn-outline-primary {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        /* =========================================
+           Contact and Footer
+        ========================================= */
+        .contact-link {
+            word-break: break-word;
+            color: var(--text-main);
+        }
+
+        .contact-link a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .contact-link a:hover {
+            text-decoration: underline;
+        }
+
+        .form-label {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .form-control {
+            background-color: var(--input-bg);
+            border-color: var(--card-border);
+            color: var(--text-main);
+        }
+
+        .form-control:focus {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem var(--focus-ring);
+        }
+
+        .footer {
+            background-color: var(--bg-alt);
+            border-top: 1px solid var(--card-border);
+            color: var(--text-main);
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================================
+           Responsive Tweaks
+        ========================================= */
+        @media (max-width: 991.98px) {
+            .section-wrap {
+                padding-top: 4.5rem;
+                padding-bottom: 4.5rem;
+            }
+
+            .mode-toggle {
+                margin-top: 0.5rem;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .hero-name {
+                font-size: 1.95rem;
+            }
+
+            .section-wrap {
+                padding-top: 4rem;
+                padding-bottom: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- =============================
+         Navbar
+    ============================== -->
+    <nav class="navbar navbar-expand-lg sticky-top nav-shell">
+        <div class="container py-2">
+            <a class="navbar-brand" href="#home">Dhanmark Lunop</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-2">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#certificates">Certificates</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+                <button type="button" class="btn mode-toggle ms-lg-3" id="themeToggle" aria-label="Toggle dark mode">Dark mode</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- =============================
+             Hero Section
+        ============================== -->
+        <section id="home" class="hero section-wrap">
+            <div class="container">
+                <div class="row align-items-center g-4 g-lg-5">
+                    <div class="col-12 col-lg-7">
+                        <p class="text-uppercase fw-semibold small mb-2" style="color: var(--primary);">IT Portfolio</p>
+                        <h1 class="hero-name mb-3">Dhanmark Lunop</h1>
+                        <p class="hero-role mb-3">IT Student | DOST Scholar</p>
+                        <p class="hero-intro mb-4">
+                            I am an Information Technology student passionate about building useful web and mobile applications.
+                        </p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="#projects" class="btn btn-primary px-4">View Projects</a>
+                            <a href="#contact" class="btn btn-outline-primary px-4">Contact</a>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-5">
+                        <div class="profile-card p-3 p-md-4">
+                            <img src="profile.jpg" alt="Dhanmark Lunop profile photo" class="img-fluid rounded-3 mb-3">
+                            <p class="mb-1 fw-semibold">Surigao City, Surigao del Norte</p>
+                            <p class="mb-0" style="color: var(--text-muted);">Information Technology Student at Surigao del Norte State University</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =============================
+             About Section
+        ============================== -->
+        <section id="about" class="section-wrap section-surface">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-10">
+                        <h2 class="section-title mb-3">About Me</h2>
+                        <p class="section-subtitle mb-0">
+                            I am an Information Technology student at Surigao del Norte State University and a DOST scholar. I am interested in web and mobile development and enjoy building useful digital tools. I like learning new technologies and improving my development skills through projects. My goal is to become a skilled software developer and build systems that solve real problems.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =============================
+             Skills Section
+        ============================== -->
+        <section id="skills" class="section-wrap section-alt">
+            <div class="container">
+                <h2 class="section-title mb-2">Skills</h2>
+                <p class="section-subtitle mb-4">Current tools and technologies I use as an IT student.</p>
+
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="custom-card h-100 p-4">
+                            <h3 class="h5 mb-3">Programming</h3>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="badge skill-badge rounded-pill px-3 py-2">HTML</span>
+                                <span class="badge skill-badge rounded-pill px-3 py-2">CSS</span>
+                                <span class="badge skill-badge rounded-pill px-3 py-2">JavaScript</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="custom-card h-100 p-4">
+                            <h3 class="h5 mb-3">Frameworks</h3>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="badge skill-badge rounded-pill px-3 py-2">Bootstrap</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-12 col-lg-4">
+                        <div class="custom-card h-100 p-4">
+                            <h3 class="h5 mb-3">Tools</h3>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="badge skill-badge rounded-pill px-3 py-2">Git</span>
+                                <span class="badge skill-badge rounded-pill px-3 py-2">GitHub</span>
+                                <span class="badge skill-badge rounded-pill px-3 py-2">VS Code</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =============================
+             Education Section
+        ============================== -->
+        <section id="education" class="section-wrap section-surface">
+            <div class="container">
+                <h2 class="section-title mb-4">Education</h2>
+                <div class="row g-4">
+                    <div class="col-12 col-lg-8">
+                        <div class="custom-card p-4 h-100">
+                            <h3 class="h5 mb-2">Bachelor of Science in Information Technology</h3>
+                            <p class="mb-1">Surigao del Norte State University</p>
+                            <p class="mb-0" style="color: var(--text-muted);">2024 &ndash; Present</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <div class="custom-card p-4 h-100">
+                            <h3 class="h5 mb-2">Scholarship</h3>
+                            <p class="mb-0">DOST Scholar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =============================
+             Projects Section
+        ============================== -->
+        <section id="projects" class="section-wrap section-alt">
+            <div class="container">
+                <h2 class="section-title mb-2">Projects</h2>
+                <p class="section-subtitle mb-4">Selected project showcasing development and UI implementation.</p>
+
+                <div class="row g-4">
+                    <div class="col-12 col-md-10 col-lg-8 mx-auto">
+                        <article class="custom-card h-100 p-4">
+                            <div class="project-shot mb-3">
+                                <img src="Screenshot from 2026-03-04 19-35-01.png" alt="Surigao Konek project screenshot">
+                            </div>
+                            <h3 class="h4 mb-2">Surigao Konek</h3>
+                            <p class="mb-3" style="color: var(--text-muted);">
+                                Community connection platform designed to help people in Surigao share information and connect with local services.
+                            </p>
+
+                            <p class="mb-2 fw-semibold">Technologies</p>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge skill-badge rounded-pill px-3 py-2">Mobile App Development</span>
+                                <span class="badge skill-badge rounded-pill px-3 py-2">JavaScript</span>
+                                <span class="badge skill-badge rounded-pill px-3 py-2">UI Development</span>
+                            </div>
+
+                            <a href="https://github.com/dhanmark8/SurigaoKonek" class="btn btn-outline-primary" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =============================
+             Certificates Section
+        ============================== -->
+        <section id="certificates" class="section-wrap section-surface">
+            <div class="container">
+                <h2 class="section-title mb-2">Certificates</h2>
+                <p class="section-subtitle mb-4">Professional learning milestones and achievements.</p>
+
+                <div class="row g-4">
+                    <div class="col-12 col-md-10 col-lg-7 mx-auto">
+                        <article class="custom-card h-100 p-4">
+                            <h3 class="h5 mb-2">Introduction to Cybersecurity</h3>
+                            <p class="mb-1"><strong>Organization:</strong> Cisco Networking Academy</p>
+                            <p class="mb-3"><strong>Completion Date:</strong> 04 Mar 2026</p>
+                            <a href="Introduction_to_Cybersecurity_certificate_dhanmarklunop-gmail-com_220605ca-cec9-48ad-b747-720830c4a637.pdf" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Open Certificate PDF</a>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =============================
+             Contact Section
+        ============================== -->
+        <section id="contact" class="section-wrap section-alt">
+            <div class="container">
+                <h2 class="section-title mb-2">Contact</h2>
+                <p class="section-subtitle mb-4">Feel free to reach out for collaboration, projects, or opportunities.</p>
+
+                <div class="row g-4">
+                    <div class="col-12 col-lg-5">
+                        <div class="custom-card p-4 h-100">
+                            <h3 class="h5 mb-3">Contact Information</h3>
+                            <p class="mb-2 contact-link"><strong>Email:</strong> <a href="mailto:dlunop2@ssct.edu.ph">dlunop2@ssct.edu.ph</a></p>
+                            <p class="mb-2 contact-link"><strong>GitHub:</strong> <a href="https://github.com/dhanmark8" target="_blank" rel="noopener noreferrer">github.com/dhanmark8</a></p>
+                            <p class="mb-0 contact-link"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/dhanmark-l-59608622b/" target="_blank" rel="noopener noreferrer">linkedin.com/in/dhanmark-l-59608622b</a></p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-7">
+                        <div class="custom-card p-4 h-100">
+                            <h3 class="h5 mb-3">Send a Message</h3>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Message</label>
+                                    <textarea class="form-control" id="message" rows="5" placeholder="Write your message"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- =============================
+         Footer
+    ============================== -->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row g-3 align-items-center">
+                <div class="col-12 col-md-6">
+                    <p class="mb-0">&copy; 2026 Dhanmark Lunop. All rights reserved.</p>
+                </div>
+                <div class="col-12 col-md-6 text-md-end">
+                    <a href="https://github.com/dhanmark8" target="_blank" rel="noopener noreferrer" class="me-3">GitHub</a>
+                    <a href="https://www.linkedin.com/in/dhanmark-l-59608622b/" target="_blank" rel="noopener noreferrer" class="me-3">LinkedIn</a>
+                    <a href="mailto:dlunop2@ssct.edu.ph">Email</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 Bundle JS (navbar collapse) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        // Dark mode toggle with persistence.
+        (function () {
+            var root = document.documentElement;
+            var toggle = document.getElementById("themeToggle");
+            var key = "portfolio-theme";
+            var savedTheme = localStorage.getItem(key);
+            var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            var currentTheme = savedTheme || (prefersDark ? "dark" : "light");
+
+            function applyTheme(theme) {
+                root.setAttribute("data-bs-theme", theme);
+                toggle.textContent = theme === "dark" ? "Light mode" : "Dark mode";
+            }
+
+            applyTheme(currentTheme);
+
+            toggle.addEventListener("click", function () {
+                currentTheme = root.getAttribute("data-bs-theme") === "dark" ? "light" : "dark";
+                applyTheme(currentTheme);
+                localStorage.setItem(key, currentTheme);
+            });
+        })();
+    </script>
+</body>
+</html>
