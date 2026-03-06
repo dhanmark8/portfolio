@@ -9,6 +9,9 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <style>
         /* =========================================
            Base Theme and Typography
@@ -19,24 +22,26 @@
             --text-main: #0f172a;
             --text-muted: #475569;
             --bg-body: #edf2f9;
-            --bg-section: #ffffff;
-            --bg-alt: #f5f8fd;
-            --hero-from: #eef5ff;
-            --hero-to: #ffffff;
-            --card-bg: #ffffff;
-            --card-border: #d8e1ef;
-            --card-shadow: 0 12px 30px rgba(15, 23, 42, 0.09);
+            --bg-section: rgba(255, 255, 255, 0.0);
+            --bg-alt: rgba(255, 255, 255, 0.0);
+            --hero-from: rgba(238, 245, 255, 0.5);
+            --hero-to: rgba(255, 255, 255, 0.0);
+            --card-bg: rgba(255, 255, 255, 0.65);
+            --card-border: rgba(255, 255, 255, 0.6);
+            --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
             --card-shadow-hover: 0 18px 38px rgba(15, 23, 42, 0.14);
             --pill-bg: #e8f0ff;
             --pill-text: #1e3a8a;
             --pill-border: #cfe0ff;
-            --nav-bg: rgba(255, 255, 255, 0.86);
+            --nav-bg: rgba(255, 255, 255, 0.7);
             --nav-link-hover: #eef4ff;
             --shot-from: #eaf1ff;
             --shot-to: #e8f8fb;
             --shot-border: #9fb7e7;
             --input-bg: #f8fbff;
-            --focus-ring: rgba(37, 99, 235, 0.24);
+            --focus-ring: rgba(37, 99, 235, 0.4);
+            --blob-color-1: #bfdbfe;
+            --blob-color-2: #e9d5ff;
         }
 
         [data-bs-theme="dark"] {
@@ -45,24 +50,26 @@
             --text-main: #e5ecf6;
             --text-muted: #9fb0cb;
             --bg-body: #0b1220;
-            --bg-section: #101a2f;
-            --bg-alt: #0d1628;
-            --hero-from: #0f1d35;
-            --hero-to: #0b1220;
-            --card-bg: #141f35;
-            --card-border: #2b3e60;
-            --card-shadow: 0 16px 34px rgba(2, 8, 23, 0.52);
+            --bg-section: rgba(16, 26, 47, 0.0);
+            --bg-alt: rgba(13, 22, 40, 0.0);
+            --hero-from: rgba(15, 29, 53, 0.5);
+            --hero-to: rgba(11, 18, 32, 0.0);
+            --card-bg: rgba(20, 31, 53, 0.55);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
             --card-shadow-hover: 0 20px 40px rgba(2, 8, 23, 0.6);
             --pill-bg: #1f2f4d;
             --pill-text: #c7dbff;
             --pill-border: #344d78;
-            --nav-bg: rgba(11, 18, 32, 0.86);
+            --nav-bg: rgba(11, 18, 32, 0.7);
             --nav-link-hover: #1a2a45;
             --shot-from: #1f314f;
             --shot-to: #1a3348;
             --shot-border: #45639b;
             --input-bg: #1a2844;
-            --focus-ring: rgba(123, 162, 255, 0.28);
+            --focus-ring: rgba(123, 162, 255, 0.4);
+            --blob-color-1: #1e3a8a;
+            --blob-color-2: #312e81;
         }
 
         html {
@@ -72,7 +79,26 @@
         body {
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
             color: var(--text-main);
-            background: radial-gradient(circle at 10% 0%, rgba(37, 99, 235, 0.12), transparent 32%), var(--bg-body);
+            background-color: var(--bg-body);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background Blobs */
+        .bg-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.5;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+        .blob-1 { top: -10%; left: -10%; width: 60vw; height: 60vw; background: var(--blob-color-1); }
+        .blob-2 { bottom: -10%; right: -10%; width: 50vw; height: 50vw; background: var(--blob-color-2); animation-delay: -5s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 50px); }
         }
 
         .section-title {
@@ -93,24 +119,25 @@
 
         .section-surface {
             background-color: var(--bg-section);
-            border-top: 1px solid var(--card-border);
-            border-bottom: 1px solid var(--card-border);
         }
 
         .section-alt {
             background-color: var(--bg-alt);
-            border-top: 1px solid var(--card-border);
-            border-bottom: 1px solid var(--card-border);
         }
 
         /* =========================================
            Navbar
         ========================================= */
         .nav-shell {
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             background: var(--nav-bg);
-            border-bottom: 1px solid var(--card-border);
-            box-shadow: 0 6px 22px rgba(15, 23, 42, 0.08);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--card-shadow);
+            margin: 1rem auto;
+            max-width: 95%;
+            border-radius: 1rem;
+            top: 1rem;
         }
 
         .navbar-brand {
@@ -159,8 +186,7 @@
            Hero
         ========================================= */
         .hero {
-            background: linear-gradient(180deg, var(--hero-from) 0%, var(--hero-to) 100%);
-            border-bottom: 1px solid var(--card-border);
+            /* background: linear-gradient(180deg, var(--hero-from) 0%, var(--hero-to) 100%); */
         }
 
         .hero-name {
@@ -169,6 +195,9 @@
             line-height: 1.08;
             letter-spacing: -0.02em;
             color: var(--text-main);
+            background: linear-gradient(135deg, var(--text-main) 30%, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero-role {
@@ -184,11 +213,13 @@
         }
 
         .profile-card {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--card-border);
             border-radius: 1.1rem;
             background-color: var(--card-bg);
             box-shadow: var(--card-shadow);
-            overflow: hidden;
+            padding: 1.5rem;
         }
 
         .profile-card img {
@@ -206,6 +237,8 @@
            Cards and Badges
         ========================================= */
         .custom-card {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--card-border);
             border-radius: 1rem;
             background: var(--card-bg);
@@ -215,7 +248,7 @@
 
         .custom-card:hover {
             transform: translateY(-4px);
-            border-color: var(--primary);
+            border-color: var(--accent);
             box-shadow: var(--card-shadow-hover);
         }
 
@@ -301,7 +334,6 @@
 
         .footer {
             background-color: var(--bg-alt);
-            border-top: 1px solid var(--card-border);
             color: var(--text-main);
         }
 
@@ -339,9 +371,61 @@
                 padding-bottom: 4rem;
             }
         }
+
+        /* =========================================
+           New Features: Scroll Top & Animations
+        ========================================= */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            box-shadow: var(--card-shadow);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .scroll-top.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .scroll-top:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-5px);
+        }
+
+        /* Reveal Animation Class */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
+    <!-- Background Elements -->
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+
     <!-- =============================
          Navbar
     ============================== -->
@@ -354,14 +438,14 @@
 
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-2">
-                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#certificates">Certificates</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#home"><i class="bi bi-house-door me-1"></i>Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about"><i class="bi bi-person me-1"></i>About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#skills"><i class="bi bi-tools me-1"></i>Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects"><i class="bi bi-code-slash me-1"></i>Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#certificates"><i class="bi bi-award me-1"></i>Certificates</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact"><i class="bi bi-envelope me-1"></i>Contact</a></li>
                 </ul>
-                <button type="button" class="btn mode-toggle ms-lg-3" id="themeToggle" aria-label="Toggle dark mode">Dark mode</button>
+                <button type="button" class="btn mode-toggle ms-lg-3" id="themeToggle" aria-label="Toggle dark mode"><i class="bi bi-moon-stars me-1"></i>Dark mode</button>
             </div>
         </div>
     </nav>
@@ -370,7 +454,7 @@
         <!-- =============================
              Hero Section
         ============================== -->
-        <section id="home" class="hero section-wrap">
+        <section id="home" class="hero section-wrap reveal">
             <div class="container">
                 <div class="row align-items-center g-4 g-lg-5">
                     <div class="col-12 col-lg-7">
@@ -381,9 +465,9 @@
                             I am an Information Technology student passionate about building useful web and mobile applications.
                         </p>
                         <div class="d-flex flex-wrap gap-2">
-                            <a href="#projects" class="btn btn-primary px-4">View Projects</a>
-                            <a href="#contact" class="btn btn-outline-primary px-4">Contact</a>
-                            <a href="gallery.html" class="btn btn-outline-primary px-4">Open Gallery</a>
+                            <a href="#projects" class="btn btn-primary px-4"><i class="bi bi-briefcase me-2"></i>View Projects</a>
+                            <a href="#contact" class="btn btn-outline-primary px-4"><i class="bi bi-chat-text me-2"></i>Contact</a>
+                            <a href="gallery.html" class="btn btn-outline-primary px-4"><i class="bi bi-images me-2"></i>Gallery</a>
                         </div>
                     </div>
 
@@ -401,7 +485,7 @@
         <!-- =============================
              About Section
         ============================== -->
-        <section id="about" class="section-wrap section-surface">
+        <section id="about" class="section-wrap section-surface reveal">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 col-lg-10">
@@ -417,7 +501,7 @@
         <!-- =============================
              Skills Section
         ============================== -->
-        <section id="skills" class="section-wrap section-alt">
+        <section id="skills" class="section-wrap section-alt reveal">
             <div class="container">
                 <h2 class="section-title mb-2">Skills</h2>
                 <p class="section-subtitle mb-4">Current tools and technologies I use as an IT student.</p>
@@ -425,7 +509,7 @@
                 <div class="row g-4">
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="custom-card h-100 p-4">
-                            <h3 class="h5 mb-3">Programming</h3>
+                            <h3 class="h5 mb-3"><i class="bi bi-code-square me-2 text-primary"></i>Programming</h3>
                             <div class="d-flex flex-wrap gap-2">
                                 <span class="badge skill-badge rounded-pill px-3 py-2">HTML</span>
                                 <span class="badge skill-badge rounded-pill px-3 py-2">CSS</span>
@@ -436,7 +520,7 @@
 
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="custom-card h-100 p-4">
-                            <h3 class="h5 mb-3">Frameworks</h3>
+                            <h3 class="h5 mb-3"><i class="bi bi-layout-wtf me-2 text-primary"></i>Frameworks</h3>
                             <div class="d-flex flex-wrap gap-2">
                                 <span class="badge skill-badge rounded-pill px-3 py-2">Bootstrap</span>
                             </div>
@@ -445,7 +529,7 @@
 
                     <div class="col-12 col-md-12 col-lg-4">
                         <div class="custom-card h-100 p-4">
-                            <h3 class="h5 mb-3">Tools</h3>
+                            <h3 class="h5 mb-3"><i class="bi bi-gear-wide-connected me-2 text-primary"></i>Tools</h3>
                             <div class="d-flex flex-wrap gap-2">
                                 <span class="badge skill-badge rounded-pill px-3 py-2">Git</span>
                                 <span class="badge skill-badge rounded-pill px-3 py-2">GitHub</span>
@@ -460,20 +544,20 @@
         <!-- =============================
              Education Section
         ============================== -->
-        <section id="education" class="section-wrap section-surface">
+        <section id="education" class="section-wrap section-surface reveal">
             <div class="container">
                 <h2 class="section-title mb-4">Education</h2>
                 <div class="row g-4">
                     <div class="col-12 col-lg-8">
                         <div class="custom-card p-4 h-100">
-                            <h3 class="h5 mb-2">Bachelor of Science in Information Technology</h3>
+                            <h3 class="h5 mb-2"><i class="bi bi-mortarboard me-2 text-primary"></i>Bachelor of Science in Information Technology</h3>
                             <p class="mb-1">Surigao del Norte State University</p>
                             <p class="mb-0" style="color: var(--text-muted);">2024 &ndash; Present</p>
                         </div>
                     </div>
                     <div class="col-12 col-lg-4">
                         <div class="custom-card p-4 h-100">
-                            <h3 class="h5 mb-2">Scholarship</h3>
+                            <h3 class="h5 mb-2"><i class="bi bi-award me-2 text-primary"></i>Scholarship</h3>
                             <p class="mb-0">DOST Scholar</p>
                         </div>
                     </div>
@@ -484,7 +568,7 @@
         <!-- =============================
              Projects Section
         ============================== -->
-        <section id="projects" class="section-wrap section-alt">
+        <section id="projects" class="section-wrap section-alt reveal">
             <div class="container">
                 <h2 class="section-title mb-2">Projects</h2>
                 <p class="section-subtitle mb-4">Selected project showcasing development and UI implementation.</p>
@@ -507,7 +591,7 @@
                                 <span class="badge skill-badge rounded-pill px-3 py-2">UI Development</span>
                             </div>
 
-                            <a href="https://github.com/dhanmark8/SurigaoKonek" class="btn btn-outline-primary" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                            <a href="https://github.com/dhanmark8/SurigaoKonek" class="btn btn-outline-primary" target="_blank" rel="noopener noreferrer"><i class="bi bi-github me-2"></i>View on GitHub</a>
                         </article>
                     </div>
                 </div>
@@ -517,7 +601,7 @@
         <!-- =============================
              Certificates Section
         ============================== -->
-        <section id="certificates" class="section-wrap section-surface">
+        <section id="certificates" class="section-wrap section-surface reveal">
             <div class="container">
                 <h2 class="section-title mb-2">Certificates</h2>
                 <p class="section-subtitle mb-4">Professional learning milestones and achievements.</p>
@@ -525,10 +609,10 @@
                 <div class="row g-4">
                     <div class="col-12 col-md-10 col-lg-7 mx-auto">
                         <article class="custom-card h-100 p-4">
-                            <h3 class="h5 mb-2">Introduction to Cybersecurity</h3>
+                            <h3 class="h5 mb-2"><i class="bi bi-shield-check me-2 text-primary"></i>Introduction to Cybersecurity</h3>
                             <p class="mb-1"><strong>Organization:</strong> Cisco Networking Academy</p>
                             <p class="mb-3"><strong>Completion Date:</strong> 04 Mar 2026</p>
-                            <a href="Introduction_to_Cybersecurity_certificate_dhanmarklunop-gmail-com_220605ca-cec9-48ad-b747-720830c4a637.pdf" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Open Certificate PDF</a>
+                            <a href="Introduction_to_Cybersecurity_certificate_dhanmarklunop-gmail-com_220605ca-cec9-48ad-b747-720830c4a637.pdf" class="btn btn-primary" target="_blank" rel="noopener noreferrer"><i class="bi bi-file-earmark-pdf me-2"></i>Open Certificate PDF</a>
                         </article>
                     </div>
                 </div>
@@ -538,7 +622,7 @@
         <!-- =============================
              Contact Section
         ============================== -->
-        <section id="contact" class="section-wrap section-alt">
+        <section id="contact" class="section-wrap section-alt reveal">
             <div class="container">
                 <h2 class="section-title mb-2">Contact</h2>
                 <p class="section-subtitle mb-4">Feel free to reach out for collaboration, projects, or opportunities.</p>
@@ -546,30 +630,31 @@
                 <div class="row g-4">
                     <div class="col-12 col-lg-5">
                         <div class="custom-card p-4 h-100">
-                            <h3 class="h5 mb-3">Contact Information</h3>
-                            <p class="mb-2 contact-link"><strong>Email:</strong> <a href="mailto:dlunop2@ssct.edu.ph">dlunop2@ssct.edu.ph</a></p>
-                            <p class="mb-2 contact-link"><strong>GitHub:</strong> <a href="https://github.com/dhanmark8" target="_blank" rel="noopener noreferrer">github.com/dhanmark8</a></p>
-                            <p class="mb-0 contact-link"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/dhanmark-l-59608622b/" target="_blank" rel="noopener noreferrer">linkedin.com/in/dhanmark-l-59608622b</a></p>
+                            <h3 class="h5 mb-3"><i class="bi bi-person-lines-fill me-2 text-primary"></i>Contact Information</h3>
+                            <p class="mb-2 contact-link"><i class="bi bi-envelope-at me-2 text-muted"></i><strong>Email:</strong> <a href="mailto:dlunop2@ssct.edu.ph">dlunop2@ssct.edu.ph</a></p>
+                            <p class="mb-2 contact-link"><i class="bi bi-github me-2 text-muted"></i><strong>GitHub:</strong> <a href="https://github.com/dhanmark8" target="_blank" rel="noopener noreferrer">github.com/dhanmark8</a></p>
+                            <p class="mb-2 contact-link"><i class="bi bi-linkedin me-2 text-muted"></i><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/dhanmark-l-59608622b/" target="_blank" rel="noopener noreferrer">linkedin.com/in/dhanmark-l-59608622b</a></p>
+                            <p class="mb-0 contact-link"><i class="bi bi-instagram me-2 text-muted"></i><strong>Instagram:</strong> <a href="https://www.instagram.com/mr.dhnmrk" target="_blank" rel="noopener noreferrer">@mr.dhnmrk</a></p>
                         </div>
                     </div>
 
                     <div class="col-12 col-lg-7">
                         <div class="custom-card p-4 h-100">
                             <h3 class="h5 mb-3">Send a Message</h3>
-                            <form>
+                            <form action="https://formspree.io/f/mdawonwv" method="POST">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="message" class="form-label">Message</label>
-                                    <textarea class="form-control" id="message" rows="5" placeholder="Write your message"></textarea>
+                                    <textarea class="form-control" id="message" name="message" rows="5" placeholder="Write your message" required></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Send Message</button>
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-send me-2"></i>Send Message</button>
                             </form>
                         </div>
                     </div>
@@ -590,11 +675,17 @@
                 <div class="col-12 col-md-6 text-md-end">
                     <a href="https://github.com/dhanmark8" target="_blank" rel="noopener noreferrer" class="me-3">GitHub</a>
                     <a href="https://www.linkedin.com/in/dhanmark-l-59608622b/" target="_blank" rel="noopener noreferrer" class="me-3">LinkedIn</a>
+                    <a href="https://www.instagram.com/mr.dhnmrk" target="_blank" rel="noopener noreferrer" class="me-3">Instagram</a>
                     <a href="mailto:dlunop2@ssct.edu.ph">Email</a>
                 </div>
             </div>
         </div>
     </footer>
+
+    <!-- Scroll to Top Button -->
+    <button type="button" class="scroll-top" id="scrollTopBtn" aria-label="Scroll to top">
+        <i class="bi bi-arrow-up"></i>
+    </button>
 
     <!-- Bootstrap 5 Bundle JS (navbar collapse) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -611,7 +702,7 @@
 
             function applyTheme(theme) {
                 root.setAttribute("data-bs-theme", theme);
-                toggle.textContent = theme === "dark" ? "Light mode" : "Dark mode";
+                toggle.innerHTML = theme === "dark" ? '<i class="bi bi-sun me-1"></i>Light mode' : '<i class="bi bi-moon-stars me-1"></i>Dark mode';
             }
 
             applyTheme(currentTheme);
@@ -621,8 +712,57 @@
                 applyTheme(currentTheme);
                 localStorage.setItem(key, currentTheme);
             });
+
+            // --- Scroll Reveal Animation ---
+            var revealElements = document.querySelectorAll('.reveal');
+            var revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Optional: Stop observing once revealed
+                        // revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // --- Scroll Top & Active Nav Link ---
+            var scrollTopBtn = document.getElementById('scrollTopBtn');
+            var sections = document.querySelectorAll('section');
+            var navLinks = document.querySelectorAll('.nav-link');
+
+            window.addEventListener('scroll', () => {
+                // Show/Hide Scroll Button
+                if (window.scrollY > 300) {
+                    scrollTopBtn.classList.add('active');
+                } else {
+                    scrollTopBtn.classList.remove('active');
+                }
+
+                // Highlight Active Nav Link
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    link.style.color = ''; // Reset
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                        link.style.color = 'var(--primary)';
+                    }
+                });
+            });
+
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
         })();
     </script>
 </body>
 </html>
-
