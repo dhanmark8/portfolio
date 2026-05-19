@@ -260,7 +260,8 @@
         }
 
         .project-shot {
-            height: 190px;
+            aspect-ratio: 16 / 9;
+            min-height: 180px;
             border-radius: 0.75rem;
             border: 1px dashed var(--shot-border);
             background: linear-gradient(135deg, var(--shot-from), var(--shot-to));
@@ -429,7 +430,7 @@
     <!-- =============================
          Navbar
     ============================== -->
-    <nav class="navbar navbar-expand-lg sticky-top nav-shell">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top nav-shell">
         <div class="container py-2">
             <a class="navbar-brand" href="#home">Dhanmark Lunop</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -464,7 +465,7 @@
                         <p class="hero-intro mb-4">
                             I am an Information Technology student passionate about building useful web and mobile applications.
                         </p>
-                        <div class="d-flex flex-wrap gap-2">
+                        <div class="d-grid gap-2 d-md-flex flex-md-wrap">
                             <a href="#projects" class="btn btn-primary px-4"><i class="bi bi-briefcase me-2"></i>View Projects</a>
                             <a href="#contact" class="btn btn-outline-primary px-4"><i class="bi bi-chat-text me-2"></i>Contact</a>
                             <a href="app/gallery.html" class="btn btn-outline-primary px-4"><i class="bi bi-images me-2"></i>Gallery</a>
@@ -506,7 +507,7 @@
                 <h2 class="section-title mb-2">Skills</h2>
                 <p class="section-subtitle mb-4">Current tools and technologies I use as an IT student.</p>
 
-                <div class="row g-4">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="custom-card h-100 p-4">
                             <h3 class="h5 mb-3"><i class="bi bi-code-square me-2 text-primary"></i>Programming</h3>
@@ -527,7 +528,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-12 col-lg-4">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="custom-card h-100 p-4">
                             <h3 class="h5 mb-3"><i class="bi bi-gear-wide-connected me-2 text-primary"></i>Tools</h3>
                             <div class="d-flex flex-wrap gap-2">
@@ -573,7 +574,7 @@
                 <h2 class="section-title mb-2">Projects</h2>
                 <p class="section-subtitle mb-4">Selected work showcasing app development, product design, and privacy-first digital experiences.</p>
 
-                <div class="row g-4">
+                <div class="row row-cols-1 row-cols-md-2 g-4">
                     <div class="col-12 col-md-6">
                         <article class="custom-card h-100 p-4">
                             <div class="project-shot mb-3">
@@ -585,7 +586,7 @@
                             </p>
 
                             <p class="mb-2 fw-semibold">Technologies</p>
-                            <div class="d-flex flex-wrap gap-2 mb-3">
+                            <div class="d-grid gap-2 d-md-flex flex-wrap mb-3">
                                 <span class="badge skill-badge rounded-pill px-3 py-2">Mobile App Development</span>
                                 <span class="badge skill-badge rounded-pill px-3 py-2">JavaScript</span>
                                 <span class="badge skill-badge rounded-pill px-3 py-2">UI Development</span>
@@ -606,14 +607,16 @@
                             </p>
 
                             <p class="mb-2 fw-semibold">Highlights</p>
-                            <div class="d-flex flex-wrap gap-2 mb-3">
+                            <div class="d-grid gap-2 d-md-flex flex-wrap mb-3">
                                 <span class="badge skill-badge rounded-pill px-3 py-2">Offline-first</span>
                                 <span class="badge skill-badge rounded-pill px-3 py-2">Privacy-focused</span>
                                 <span class="badge skill-badge rounded-pill px-3 py-2">Budget tracking</span>
                             </div>
 
-                            <a href="assets/vault/Vault2.0.apk" class="btn btn-primary me-2" download="Vault2.0.apk"><i class="bi bi-cloud-download-fill me-2"></i>Download APK</a>
-                            <a href="#vault" class="btn btn-outline-primary"><i class="bi bi-phone-fill me-2"></i>See details</a>
+                            <div class="d-grid gap-2 d-md-flex">
+                                <a href="assets/vault/Vault2.0.apk" class="btn btn-primary me-md-2" download="Vault2.0.apk"><i class="bi bi-cloud-download-fill me-2"></i>Download APK</a>
+                                <a href="#vault" class="btn btn-outline-primary"><i class="bi bi-phone-fill me-2"></i>See details</a>
+                            </div>
                         </article>
                     </div>
                 </div>
@@ -628,7 +631,7 @@
                 <h2 class="section-title mb-2">Certificates</h2>
                 <p class="section-subtitle mb-4">Professional learning milestones and achievements.</p>
 
-                <div class="row g-4">
+                <div class="row row-cols-1 row-cols-md-2 g-4">
                     <div class="col-12 col-md-6">
                         <article class="custom-card h-100 p-4">
                             <h3 class="h5 mb-2"><i class="bi bi-shield-check me-2 text-primary"></i>Introduction to Cybersecurity</h3>
@@ -657,7 +660,7 @@
                 <h2 class="section-title mb-2">Contact</h2>
                 <p class="section-subtitle mb-4">Feel free to reach out for collaboration, projects, or opportunities.</p>
 
-                <div class="row g-4">
+                <div class="row row-cols-1 row-cols-lg-2 g-4">
                     <div class="col-12 col-lg-5">
                         <div class="custom-card p-4 h-100">
                             <h3 class="h5 mb-3"><i class="bi bi-person-lines-fill me-2 text-primary"></i>Contact Information</h3>
