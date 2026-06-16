@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Games | Dhanmark Lunop</title>
+    <meta name="description" content="Mini games section for Dhanmark Lunop's portfolio. Seven browser games in one polished page.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #0a0f1e;
+            --surface: #111827;
+            --surface-strong: #141d2d;
+            --border: #1e293b;
+            --accent: #3b82f6;
+            --accent-strong: #2563eb;
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --code: #cbd5e1;
+            --shadow: 0 24px 72px rgba(0,0,0,0.18);
+            --radius: 1rem;
+            --max-width: 1200px;
+            --transition: 200ms ease;
+        }
+        [data-theme="light"] {
+            color-scheme: light;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --surface-strong: #e2e8f0;
+            --border: #cbd5e1;
+            --accent: #3b82f6;
+            --accent-strong: #2563eb;
+            --text: #0f172a;
+            --muted: #475569;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --code: #1f2937;
+            --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top left, rgba(59,130,246,0.12), transparent 26%),
+                        radial-gradient(circle at bottom right, rgba(56,189,248,0.08), transparent 24%),
+                        var(--bg);
+            color: var(--text);
+        }
+        img { max-width: 100%; display: block; }
+        button, input, textarea { font: inherit; }
+        button { cursor: pointer; }
+        a { color: inherit; text-decoration: none; }
+        .page-shell { width: min(100%, 1200px); margin: 0 auto; padding: 1rem 1.25rem 4rem; }
+        .nav-shell {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            position: sticky;
+            top: 1rem;
+            z-index: 20;
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            background: rgba(10,15,30,0.82);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 0.95rem 1rem;
+            box-shadow: var(--shadow);
+        }
+        [data-theme="light"] .nav-shell { background: rgba(248,250,252,0.88); }
+        .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.04em; }
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.7rem 1rem;
+            border-radius: 0.85rem;
+            color: var(--muted);
+            transition: background var(--transition), color var(--transition);
+        }
+        .nav-link:hover, .nav-link:focus-visible { background: rgba(59,130,246,0.12); color: var(--text); outline: none; }
+        [data-theme="light"] .nav-link:hover, [data-theme="light"] .nav-link:focus-visible { background: rgba(59,130,246,0.14); }
+        .theme-toggle {
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            border-radius: 0.85rem;
+            padding: 0.75rem 1rem;
+            min-width: 5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background var(--transition), border-color var(--transition), color var(--transition);
+        }
+        .theme-toggle:hover, .theme-toggle:focus-visible { border-color: var(--accent); outline: none; }
+        .hero {
+            margin: 2rem 0 2.5rem;
+            padding: 2.1rem 2rem;
+            border-radius: var(--radius);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+        .hero-title { margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.1rem, 4vw, 3.4rem); line-height: 1.02; }
+        .hero-subtitle { margin: 0.9rem 0 1rem; color: var(--muted); max-width: 720px; font-size: 1rem; }
+        .hero-text { margin: 0; color: var(--muted); max-width: 720px; line-height: 1.8; }
+        .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0 0 1rem; }
+        .section-heading h2 { margin: 0; font-size: clamp(1.7rem, 3vw, 2.4rem); font-family: 'Space Grotesk', sans-serif; }
+        .section-subtext { color: var(--muted); margin: 0; }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.25rem;
+        }
+        .game-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.35rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            box-shadow: var(--shadow);
+            transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+        }
+        .game-card:hover, .game-card:focus-within { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 28px 80px rgba(0,0,0,0.18); }
+        .game-icon { width: 3rem; height: 3rem; display: grid; place-items: center; border-radius: 0.9rem; background: rgba(59,130,246,0.12); font-size: 1.4rem; }
+        .game-title { margin: 0; font-size: 1.1rem; font-weight: 700; }
+        .game-copy { margin: 0; color: var(--muted); line-height: 1.7; }
+        .badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.45rem 0.75rem; border-radius: 999px; font-size: 0.79rem; font-weight: 600; background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid transparent; }
+        .badge.easy { color: #86efac; border-color: rgba(34,197,94,0.25); }
+        .badge.medium { color: #facc15; border-color: rgba(245,158,11,0.2); }
+        .badge.hard { color: #fda4af; border-color: rgba(239,68,68,0.2); }
+        .game-card button { margin-top: auto; align-self: flex-start; border: none; background: var(--accent); color: #fff; padding: 0.9rem 1.2rem; border-radius: 0.9rem; font-weight: 700; transition: background var(--transition), transform var(--transition); }
+        .game-card button:hover, .game-card button:focus-visible { background: var(--accent-strong); transform: translateY(-1px); outline: none; }
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(10,15,30,0.72);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            display: grid;
+            place-items: center;
+            padding: 1.25rem;
+            transition: opacity var(--transition) ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .modal-backdrop.active { opacity: 1; visibility: visible; }
+        .game-modal {
+            width: min(100%, 1040px);
+            max-height: min(100vh - 2rem, 900px);
+            overflow: hidden;
+            border-radius: 1.25rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            transform: translateY(24px);
+            transition: transform var(--transition) ease;
+        }
+        .modal-backdrop.active .game-modal { transform: translateY(0); }
+        .modal-header {
+            padding: 1.25rem 1.5rem 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .modal-title { margin: 0; font-size: 1.45rem; font-family: 'Space Grotesk', sans-serif; }
+        .modal-close {
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            font-size: 1.5rem;
+            line-height: 1;
+            padding: 0.25rem;
+        }
+        .modal-close:hover, .modal-close:focus-visible { color: var(--text); outline: none; }
+        .modal-body {
+            padding: 0 1.5rem 1.5rem;
+            overflow: auto;
+        }
+        .game-section { display: grid; gap: 1.1rem; }
+        .panel { background: var(--bg); border: 1px solid var(--border); border-radius: 1rem; padding: 1rem; }
+        .panel-title { margin: 0 0 0.6rem; font-size: 1rem; font-weight: 700; }
+        .panel-copy { margin: 0; color: var(--muted); line-height: 1.7; }
+        .status-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+        .status-pill { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 0.9rem; border-radius: 999px; background: rgba(59,130,246,0.12); color: var(--text); font-size: 0.9rem; border: 1px solid transparent; }
+        .status-pill.success { color: var(--success); background: rgba(34,197,94,0.12); }
+        .status-pill.warn { color: var(--warning); background: rgba(245,158,11,0.14); }
+        .status-pill.danger { color: var(--danger); background: rgba(239,68,68,0.12); }
+        .wide-grid { display: grid; gap: 1rem; }
+        .button-group { display: flex; flex-wrap: wrap; gap: 0.85rem; }
+        .btn { border: none; border-radius: 0.95rem; padding: 0.85rem 1.15rem; font-weight: 700; transition: background var(--transition), transform var(--transition); }
+        .btn.primary { background: var(--accent); color: #fff; }
+        .btn.secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+        .btn.secondary:hover, .btn.secondary:focus-visible { border-color: var(--accent); }
+        .btn.success { background: var(--success); color: #fff; }
+        .btn.danger { background: var(--danger); color: #fff; }
+        .btn:hover, .btn:focus-visible { transform: translateY(-1px); outline: none; }
+        .input-row { display: grid; gap: 0.85rem; }
+        input[type="text"], textarea { width: 100%; border: 1px solid var(--border); background: var(--bg); color: var(--text); border-radius: 0.85rem; padding: 0.95rem 1rem; outline: none; }
+        input[type="text"]:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.18); }
+        .small-text { color: var(--muted); font-size: 0.95rem; line-height: 1.7; }
+        .chip { display: inline-flex; align-items: center; padding: 0.55rem 0.8rem; border-radius: 999px; font-size: 0.88rem; border: 1px solid var(--border); background: var(--surface); }
+        .code-block { background: rgba(15,23,42,0.95); border: 1px solid rgba(148,163,184,0.18); border-radius: 1rem; padding: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.93rem; line-height: 1.55; overflow-x: auto; white-space: pre; color: #e2e8f0; }
+        .code-line { display: block; }
+        .token-keyword { color: #38bdf8; }
+        .token-string { color: #fbbf24; }
+        .token-number { color: #60a5fa; }
+        .token-comment { color: #64748b; }
+        .token-operator { color: #c084fc; }
+        .token-built { color: #34d399; }
+        .token-punctuation { color: #f8fafc; }
+        .game-input { font-family: 'JetBrains Mono', monospace; }
+        .dialog-message { padding: 1rem; border-radius: 1rem; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.18); }
+        .dialog-message strong { color: var(--text); }
+        .arena { display: grid; gap: 1rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; }
+        .stat-box { background: var(--bg); border: 1px solid var(--border); border-radius: 1rem; padding: 1rem; }
+        .stat-value { font-family: 'JetBrains Mono', monospace; font-size: 1.55rem; font-weight: 700; margin: 0; }
+        .stat-label { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.92rem; }
+        .meter { width: 100%; height: 0.5rem; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden; }
+        .meter-fill { height: 100%; border-radius: inherit; background: var(--accent); transition: width 160ms ease; }
+        .binary-line { font-family: 'JetBrains Mono', monospace; letter-spacing: 0.15em; font-size: 1.15rem; color: #e2e8f0; }
+        .hint-line { color: var(--muted); }
+        .hidden { display: none !important; }
+        .footer { margin-top: 3rem; padding: 2rem 0 1rem; color: var(--muted); text-align: center; }
+        .footer a { color: var(--accent); }
+        .lives { display: flex; gap: 0.4rem; align-items: center; }
+        .life-dot { width: 0.85rem; height: 0.85rem; border-radius: 50%; background: var(--success); }
+        .life-dot.empty { background: rgba(255,255,255,0.12); border: 1px solid var(--border); }
+        .cart-list, .item-grid { display: grid; gap: 0.85rem; }
+        .item-card { background: var(--bg); border: 1px solid var(--border); border-radius: 1rem; padding: 0.95rem 1rem; display: grid; gap: 0.8rem; }
+        .item-top { display: flex; align-items: center; gap: 0.9rem; }
+        .item-emoji { width: 2.3rem; height: 2.3rem; display: grid; place-items: center; border-radius: 0.95rem; background: rgba(59,130,246,0.12); font-size: 1.2rem; }
+        .item-name { margin: 0; font-weight: 700; }
+        .item-price { margin: 0; color: var(--text); font-family: 'JetBrains Mono', monospace; }
+        .item-desc { margin: 0; color: var(--muted); font-size: 0.95rem; }
+        .item-card button { justify-self: start; padding: 0.75rem 1rem; }
+        .cart-item { display: grid; grid-template-columns: 1fr auto; gap: 0.75rem; align-items: center; padding: 0.85rem 1rem; border-radius: 0.95rem; background: var(--bg); border: 1px solid var(--border); }
+        .cart-name { margin: 0; font-size: 0.96rem; }
+        .cart-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; color: var(--muted); font-size: 0.9rem; }
+        .cart-actions { display: flex; gap: 0.4rem; }
+        .card-button { min-width: 2.6rem; height: 2.6rem; border-radius: 0.85rem; border: 1px solid var(--border); background: var(--surface); color: var(--text); }
+        .card-button:hover { border-color: var(--accent); }
+        .summary-row { display: grid; gap: 0.6rem; }
+        .summary-amount { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; }
+        .summary-note { color: var(--muted); }
+        .outcome { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+        .outcome strong { font-weight: 700; color: var(--text); }
+        .responsive-grid { display: grid; gap: 1rem; }
+        @media (max-width: 992px) { .game-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 680px) { .page-shell { padding: 1rem 0.85rem 3rem; } .game-grid { grid-template-columns: 1fr; } .nav-shell { flex-direction: column; align-items: stretch; } .nav-links { justify-content: space-between; } .section-heading { flex-direction: column; align-items: flex-start; } }
+        @media (max-width: 520px) { .modal-body { padding: 0 1rem 1rem; } .modal-header { padding: 1rem; } .game-card { padding: 1.15rem; } }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+            .modal-backdrop.active .game-modal { transform: translateY(0); }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <div class="page-shell">
+        <nav class="nav-shell" aria-label="Main navigation">
+            <a class="logo" href="index.html">Dhanmark Lunop</a>
+            <div class="nav-links">
+                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="index.html#projects">Projects</a>
+                <a class="nav-link" href="index.html#contact">Contact</a>
+                <button class="theme-toggle" id="themeToggle" type="button">Dark mode</button>
+            </div>
+        </nav>
+
+        <section id="games-hero" class="hero">
+            <div class="section-heading">
+                <div>
+                    <h1 class="hero-title">Mini Games</h1>
+                    <p class="section-subtext">Small, weird, playable challenges that reflect my IT student journey.</p>
+                </div>
+            </div>
+            <p class="hero-text">Seven browser games built with vanilla HTML, CSS, and JavaScript. Each game keeps score, adapts to dark mode, and works on touch devices.</p>
+        </section>
+
+        <section id="games-lobby">
+            <div class="section-heading">
+                <h2>Game lobby</h2>
+                <p class="section-subtext">Pick a game and start playing. Each title is self-contained and ready in the modal.</p>
+            </div>
+            <div class="game-grid" id="gameGrid"></div>
+        </section>
+    </div>
+
+    <div class="modal-backdrop" id="gameModal" aria-hidden="true">
+        <div class="game-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <header class="modal-header">
+                <div>
+                    <h2 class="modal-title" id="modalTitle"></h2>
+                    <p class="section-subtext" id="modalSubtitle"></p>
+                </div>
+                <button class="modal-close" type="button" id="modalClose" aria-label="Close game">×</button>
+            </header>
+            <div class="modal-body" id="gameContainer"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Built for the portfolio of Dhanmark Lunop · No external game dependencies · Dark mode first.</p>
+    </footer>
+
+    <canvas id="confettiCanvas" class="hidden"></canvas>
+
+    <script>
+    (function () {
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const themeToggle = document.getElementById('themeToggle');
+        const rootElement = document.documentElement;
+        const pageShell = document.querySelector('.page-shell');
+        const gameGrid = document.getElementById('gameGrid');
+        const gameModal = document.getElementById('gameModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalSubtitle = document.getElementById('modalSubtitle');
+        const modalClose = document.getElementById('modalClose');
+        const gameContainer = document.getElementById('gameContainer');
+        const confettiCanvas = document.getElementById('confettiCanvas');
+        let activeGame = null;
+        let currentGameInstance = null;
+        let modalIsOpen = false;
+        const sessionBest = {};
+
+        const gameList = [
+            { id: 'trivia', title: 'IT Trivia', description: 'Timed IT multiple-choice questions with score bonuses and instant feedback.', difficulty: 'hard', icon: '🧠' },
+            { id: 'circle', title: 'Draw a Perfect Circle', description: 'Draw a circle freehand and score how steady your hand really is.', difficulty: 'medium', icon: '🟦' },
+            { id: 'typing', title: 'Typing Speed Test', description: 'Measure your WPM with developer-themed prose and strict correction mode.', difficulty: 'medium', icon: '⌨️' },
+            { id: 'binary', title: 'Binary Decoder', description: 'Convert 8-bit binary to ASCII before time runs out.', difficulty: 'hard', icon: '💻' },
+            { id: 'subnet', title: 'Subnet Challenge', description: 'Answer subnetting questions with algorithmic IPv4 calculations.', difficulty: 'hard', icon: '🌐' },
+            { id: 'output', title: 'Guess the Output', description: 'Read short code snippets and type the exact program output.', difficulty: 'hard', icon: '📟' },
+            { id: 'budget', title: 'Spend Dhanmark’s Budget', description: 'Spend ₱500 on a student budget while trying to end at exactly zero.', difficulty: 'easy', icon: '🛒' }
+        ];
+
+        function createElement(tag, attributes = {}, children = []) {
+            const element = document.createElement(tag);
+            Object.entries(attributes).forEach(([key, value]) => {
+                if (key === 'class') element.className = value;
+                else if (key === 'text') element.textContent = value;
+                else if (key === 'html') element.innerHTML = value;
+                else element.setAttribute(key, value);
+            });
+            children.forEach(child => element.appendChild(child));
+            return element;
+        }
+
+        function shuffle(array) {
+            const copy = array.slice();
+            for (let i = copy.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        function clamp(value, min, max) {
+            return Math.max(min, Math.min(max, value));
+        }
+
+        function normalizeInput(value) {
+            return String(value).trim();
+        }
+
+        function normalizeAnswer(value) {
+            return String(value).trim();
+        }
+
+        function formatCurrency(amount) {
+            return '₱' + Number(amount).toFixed(2);
+        }
+
+        function setTheme(theme) {
+            if (theme === 'light') {
+                rootElement.setAttribute('data-theme', 'light');
+                themeToggle.textContent = 'Light mode';
+            } else {
+                rootElement.removeAttribute('data-theme');
+                themeToggle.textContent = 'Dark mode';
+            }
+            sessionStorage.setItem('portfolioTheme', theme);
+        }
+
+        function toggleTheme() {
+            const isLight = rootElement.getAttribute('data-theme') === 'light';
+            setTheme(isLight ? 'dark' : 'light');
+        }
+
+        function openModal(game) {
+            activeGame = game;
+            modalTitle.textContent = game.title;
+            modalSubtitle.textContent = game.description;
+            gameModal.classList.add('active');
+            gameModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            modalIsOpen = true;
+            currentGameInstance = gameModules[game.id];
+            if (currentGameInstance) {
+                currentGameInstance.init(gameContainer, closeModal);
+                currentGameInstance.start();
+            }
+        }
+
+        function closeModal() {
+            if (!modalIsOpen) return;
+            if (currentGameInstance && currentGameInstance.cleanup) {
+                currentGameInstance.cleanup();
+            }
+            gameModal.classList.remove('active');
+            gameModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            activeGame = null;
+            currentGameInstance = null;
+            modalIsOpen = false;
+            gameContainer.innerHTML = '';
+        }
+
+        function buildLobby() {
+            gameGrid.innerHTML = '';
+            gameList.forEach(game => {
+                const card = createElement('article', { class: 'game-card' });
+                card.appendChild(createElement('div', { class: 'game-icon', text: game.icon }));
+                card.appendChild(createElement('h3', { class: 'game-title', text: game.title }));
+                card.appendChild(createElement('p', { class: 'game-copy', text: game.description }));
+                const tag = createElement('span', { class: `badge ${game.difficulty}` , text: game.difficulty.toUpperCase() });
+                card.appendChild(tag);
+                const button = createElement('button', { class: 'btn primary', type: 'button', text: 'Play' });
+                button.addEventListener('click', () => openModal(game));
+                card.appendChild(button);
+                gameGrid.appendChild(card);
+            });
+        }
+
+        function visibleTimeRunner(runner) {
+            let paused = false;
+            let pauseStart = 0;
+            function handleVisibility() {
+                if (document.hidden) {
+                    paused = true;
+                    pauseStart = Date.now();
+                    runner('pause');
+                } else if (paused) {
+                    paused = false;
+                    runner('resume', Date.now() - pauseStart);
+                }
+            }
+            document.addEventListener('visibilitychange', handleVisibility);
+            return () => document.removeEventListener('visibilitychange', handleVisibility);
+        }
+
+        function showConfetti() {
+            if (reducedMotion) return;
+            const canvas = confettiCanvas;
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            canvas.width = w * dpr;
+            canvas.height = h * dpr;
+            canvas.style.width = w + 'px';
+            canvas.style.height = h + 'px';
+            canvas.classList.remove('hidden');
+            const particles = Array.from({ length: 80 }, () => ({
+                x: Math.random() * w,
+                y: Math.random() * h - h * 0.2,
+                velocityX: (Math.random() - 0.5) * 4,
+                velocityY: Math.random() * 4 + 2,
+                size: Math.random() * 6 + 4,
+                rotation: Math.random() * 360,
+                rotationSpeed: (Math.random() - 0.5) * 12,
+                color: ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#94a3b8'][Math.floor(Math.random() * 5)]
+            }));
+            const start = performance.now();
+            function draw(now) {
+                const elapsed = now - start;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.x += p.velocityX;
+                    p.y += p.velocityY;
+                    p.rotation += p.rotationSpeed;
+                    if (p.y > h + 20) p.y = -20;
+                    if (p.x < -20) p.x = w + 20;
+                    if (p.x > w + 20) p.x = -20;
+                    ctx.save();
+                    ctx.translate(p.x * dpr, p.y * dpr);
+                    ctx.rotate((p.rotation * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size * dpr / 2, -p.size * dpr / 2, p.size * dpr, p.size * dpr);
+                    ctx.restore();
+                });
+                if (elapsed < 1500) {
+                    requestAnimationFrame(draw);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    canvas.classList.add('hidden');
+                }
+            }
+            requestAnimationFrame(draw);
+        }
+
+        const triviaQuestions = [
+            { q: 'Which OSI layer manages routing and IP addressing?', choices: ['Network', 'Transport', 'Data Link', 'Application'], a: 'Network', topic: 'network', hard: true },
+            { q: 'What protocol resolves domain names to IP addresses?', choices: ['DNS', 'DHCP', 'FTP', 'SMTP'], a: 'DNS', topic: 'network', hard: false },
+            { q: 'What does DHCP assign automatically?', choices: ['IP address', 'MAC address', 'Subnet mask', 'DNS records'], a: 'IP address', topic: 'network', hard: false },
+            { q: 'Which transport protocol guarantees ordered delivery?', choices: ['TCP', 'UDP', 'ICMP', 'ARP'], a: 'TCP', topic: 'network', hard: false },
+            { q: 'A VLAN is used to segment traffic at which layer?', choices: ['Data Link', 'Network', 'Session', 'Application'], a: 'Data Link', topic: 'network', hard: true },
+            { q: 'What is the default port for HTTPS?', choices: ['443', '80', '22', '25'], a: '443', topic: 'network', hard: false },
+            { q: 'NAT primarily translates between private and public what?', choices: ['IP addresses', 'MAC addresses', 'hostnames', 'ports'], a: 'IP addresses', topic: 'network', hard: false },
+            { q: 'What command checks network connectivity with ICMP?', choices: ['ping', 'traceroute', 'netstat', 'nslookup'], a: 'ping', topic: 'network', hard: false },
+            { q: 'Which layer groups bits into frames?', choices: ['Data Link', 'Physical', 'Transport', 'Presentation'], a: 'Data Link', topic: 'network', hard: false },
+            { q: 'TCP uses which handshake before sending data?', choices: ['Three-way', 'Two-way', 'Four-way', 'One-way'], a: 'Three-way', topic: 'network', hard: false },
+            { q: 'What is the correct subnet mask for /24?', choices: ['255.255.255.0', '255.255.0.0', '255.0.0.0', '255.255.255.128'], a: '255.255.255.0', topic: 'network', hard: false },
+            { q: 'What does DNS stand for?', choices: ['Domain Name System', 'Direct Network Setup', 'Distributed Node Service', 'Data Name Server'], a: 'Domain Name System', topic: 'network', hard: false },
+            { q: 'Which protocol provides secure shell access?', choices: ['SSH', 'FTP', 'Telnet', 'HTTP'], a: 'SSH', topic: 'network', hard: true },
+            { q: 'What is the purpose of a default gateway?', choices: ['Forward traffic off subnet', 'Store DNS records', 'Assign IP addresses', 'Encrypt packets'], a: 'Forward traffic off subnet', topic: 'network', hard: false },
+            { q: 'What does ARP resolve?', choices: ['IP to MAC', 'MAC to IP', 'Domain to IP', 'Port to service'], a: 'IP to MAC', topic: 'network', hard: false },
+            { q: 'Which address type is used by a broadcast packet?', choices: ['255.255.255.255', '000.000.000.000', '127.0.0.1', '224.0.0.1'], a: '255.255.255.255', topic: 'network', hard: true },
+            { q: 'What kind of address is 192.168.1.1?', choices: ['Private IP', 'Public IP', 'Broadcast IP', 'Multicast IP'], a: 'Private IP', topic: 'network', hard: false },
+            { q: 'Which layer is responsible for packet forwarding?', choices: ['Network', 'Session', 'Presentation', 'Application'], a: 'Network', topic: 'network', hard: false },
+            { q: 'A switch operates mainly at which OSI layer?', choices: ['Data Link', 'Network', 'Transport', 'Application'], a: 'Data Link', topic: 'network', hard: false },
+            { q: 'What is the primary function of DNS?', choices: ['Translate names to IPs', 'Encrypt traffic', 'Filter packets', 'Assign addresses'], a: 'Translate names to IPs', topic: 'network', hard: false },
+            { q: 'Which concept is a CIA triad member?', choices: ['Confidentiality', 'Caching', 'Clustering', 'Concurrency'], a: 'Confidentiality', topic: 'security', hard: false },
+            { q: 'What does integrity protect?', choices: ['Data from unauthorized change', 'Network uptime', 'Authentication tokens', 'System memory'], a: 'Data from unauthorized change', topic: 'security', hard: false },
+            { q: 'Which component blocks unwanted traffic?', choices: ['Firewall', 'Router', 'Switch', 'Load balancer'], a: 'Firewall', topic: 'security', hard: false },
+            { q: 'Which attack uses deceptive emails?', choices: ['Phishing', 'Brute force', 'DDoS', 'Sniffing'], a: 'Phishing', topic: 'security', hard: false },
+            { q: 'Strong encryption converts plaintext into what?', choices: ['Ciphertext', 'Protocol', 'Gateway', 'Checksum'], a: 'Ciphertext', topic: 'security', hard: false },
+            { q: 'What does MFA add beyond password?', choices: ['Second factor', 'More memory', 'Faster network', 'Backdoor access'], a: 'Second factor', topic: 'security', hard: false },
+            { q: 'SQL injection is an attack against which layer?', choices: ['Application', 'Network', 'Physical', 'Data Link'], a: 'Application', topic: 'security', hard: true },
+            { q: 'What is a zero-day vulnerability?', choices: ['Unknown security flaw', 'Expired certificate', 'Malicious script', 'Weak password'], a: 'Unknown security flaw', topic: 'security', hard: true },
+            { q: 'A VPN primarily protects what?', choices: ['Remote traffic', 'Local files', 'Screen brightness', 'Keyboard input'], a: 'Remote traffic', topic: 'security', hard: false },
+            { q: 'What is social engineering?', choices: ['Human manipulation attack', 'Software update tool', 'Code compiler', 'Network cable'], a: 'Human manipulation attack', topic: 'security', hard: false },
+            { q: 'Which tool detects suspicious activity?', choices: ['IDS', 'DNS', 'CPU', 'RAM'], a: 'IDS', topic: 'security', hard: true },
+            { q: 'What is phishing designed to steal?', choices: ['Login credentials', 'Printer ink', 'Backup files', 'CPU cycles'], a: 'Login credentials', topic: 'security', hard: false },
+            { q: 'What does a patch fix?', choices: ['Software vulnerability', 'Monitor glare', 'Cable length', 'Battery life'], a: 'Software vulnerability', topic: 'security', hard: false },
+            { q: 'Encryption helps protect data in what state?', choices: ['Transit and rest', 'Font size', 'Ink color', 'Screen resolution'], a: 'Transit and rest', topic: 'security', hard: true },
+            { q: 'Which is a common authentication factor?', choices: ['Something you know', 'Something you eat', 'Something you own', 'Both A and C'], a: 'Both A and C', topic: 'security', hard: false },
+            { q: 'Which data type stores a sequence of characters?', choices: ['String', 'Boolean', 'Integer', 'Float'], a: 'String', topic: 'programming', hard: false },
+            { q: 'What keyword defines a variable in JavaScript?', choices: ['let', 'def', 'class', 'enum'], a: 'let', topic: 'programming', hard: false },
+            { q: 'Which statement repeats until condition is false?', choices: ['while loop', 'if statement', 'switch', 'return'], a: 'while loop', topic: 'programming', hard: false },
+            { q: 'What does OOP use to model objects?', choices: ['Class', 'Array', 'HTML', 'Pixel'], a: 'Class', topic: 'programming', hard: false },
+            { q: 'A function returns a value with what keyword?', choices: ['return', 'break', 'continue', 'yield'], a: 'return', topic: 'programming', hard: false },
+            { q: 'What is the first element index in JavaScript arrays?', choices: ['0', '1', '2', '-1'], a: '0', topic: 'programming', hard: false },
+            { q: 'Which operator checks equality and type in JS?', choices: ['===', '==', '=', '!=='], a: '===', topic: 'programming', hard: true },
+            { q: 'What is recursion?', choices: ['Function calling itself', 'Loop without end', 'Variable assignment', 'Style rule'], a: 'Function calling itself', topic: 'programming', hard: true },
+            { q: 'Which value means no value at all in JavaScript?', choices: ['null', '0', 'undefined', 'false'], a: 'null', topic: 'programming', hard: false },
+            { q: 'What data structure uses key-value pairs?', choices: ['Object', 'Array', 'Set', 'String'], a: 'Object', topic: 'programming', hard: false },
+            { q: 'What does API stand for?', choices: ['Application Programming Interface', 'Advanced Program Input', 'Automatic Process Identifier', 'Active Page Index'], a: 'Application Programming Interface', topic: 'web', hard: false },
+            { q: 'Which HTML tag contains the page title?', choices: ['title', 'header', 'main', 'section'], a: 'title', topic: 'web', hard: false },
+            { q: 'What CSS property controls layout direction in flex?', choices: ['flex-direction', 'display', 'position', 'margin'], a: 'flex-direction', topic: 'web', hard: false },
+            { q: 'Which HTTP method requests data without changing the server?', choices: ['GET', 'POST', 'PUT', 'DELETE'], a: 'GET', topic: 'web', hard: false },
+            { q: 'What does DOM stand for?', choices: ['Document Object Model', 'Direct Object Method', 'Data Output Map', 'Dynamic Order Manager'], a: 'Document Object Model', topic: 'web', hard: false },
+            { q: 'Which tag links a stylesheet?', choices: ['link', 'style', 'script', 'meta'], a: 'link', topic: 'web', hard: false },
+            { q: 'What is inline CSS?', choices: ['Styles in a tag attribute', 'Styles in a file', 'JavaScript styling', 'Server rules'], a: 'Styles in a tag attribute', topic: 'web', hard: false },
+            { q: 'Which progress bar is best for loading state?', choices: ['indeterminate', 'sticky', 'animated', 'relative'], a: 'indeterminate', topic: 'web', hard: true },
+            { q: 'What is the default display of a div element?', choices: ['block', 'inline', 'inline-block', 'flex'], a: 'block', topic: 'web', hard: false },
+            { q: 'Which property adds space inside an element?', choices: ['padding', 'margin', 'border', 'gap'], a: 'padding', topic: 'web', hard: false },
+            { q: 'What does HTTP status 404 mean?', choices: ['Not Found', 'OK', 'Internal Server Error', 'Unauthorized'], a: 'Not Found', topic: 'web', hard: false },
+            { q: 'Which SQL statement adds a record?', choices: ['INSERT', 'SELECT', 'UPDATE', 'DELETE'], a: 'INSERT', topic: 'database', hard: false },
+            { q: 'What is a primary key?', choices: ['Unique row identifier', 'Search index', 'Stored procedure', 'Table column'], a: 'Unique row identifier', topic: 'database', hard: false },
+            { q: 'Which SQL clause filters results?', choices: ['WHERE', 'ORDER BY', 'GROUP BY', 'HAVING'], a: 'WHERE', topic: 'database', hard: false },
+            { q: 'What does normalization reduce?', choices: ['Data redundancy', 'Query speed', 'Disk size', 'Password strength'], a: 'Data redundancy', topic: 'database', hard: true },
+            { q: 'What does JOIN do?', choices: ['Combine tables', 'Encrypt data', 'Schedule jobs', 'Create indexes'], a: 'Combine tables', topic: 'database', hard: false },
+            { q: 'What does SELECT * return?', choices: ['All columns', 'All tables', 'All databases', 'No rows'], a: 'All columns', topic: 'database', hard: false },
+            { q: 'Which key makes a column unique?', choices: ['UNIQUE', 'PRIMARY', 'FOREIGN', 'CHECK'], a: 'UNIQUE', topic: 'database', hard: false },
+            { q: 'What does an index improve?', choices: ['Query speed', 'Security', 'Network latency', 'Memory usage'], a: 'Query speed', topic: 'database', hard: false },
+            { q: 'Which command removes a row?', choices: ['DELETE', 'DROP', 'TRUNCATE', 'ALTER'], a: 'DELETE', topic: 'database', hard: false },
+            { q: 'Which normal form avoids repeating groups?', choices: ['First normal form', 'Second normal form', 'Third normal form', 'Boyce-Codd NF'], a: 'First normal form', topic: 'database', hard: false },
+            { q: 'What number system uses A through F?', choices: ['Hexadecimal', 'Binary', 'Octal', 'Decimal'], a: 'Hexadecimal', topic: 'it', hard: false },
+            { q: 'Which component stores running programs temporarily?', choices: ['RAM', 'SSD', 'CPU', 'GPU'], a: 'RAM', topic: 'it', hard: false },
+            { q: 'What does BIOS do when the computer starts?', choices: ['Initialize hardware', 'Render graphics', 'Compile code', 'Encrypt files'], a: 'Initialize hardware', topic: 'it', hard: false },
+            { q: 'Which device renders images on screen?', choices: ['GPU', 'CPU', 'NIC', 'PSU'], a: 'GPU', topic: 'it', hard: false },
+            { q: 'What does CPU stand for?', choices: ['Central Processing Unit', 'Computer Power Unit', 'Control Program Utility', 'Cached Processor Unit'], a: 'Central Processing Unit', topic: 'it', hard: false },
+            { q: 'Binary uses only which digits?', choices: ['0 and 1', '0 to 9', 'A to F', '0 to 7'], a: '0 and 1', topic: 'it', hard: false },
+            { q: 'Which part connects all components on the motherboard?', choices: ['Bus', 'Cache', 'Port', 'Socket'], a: 'Bus', topic: 'it', hard: false },
+            { q: 'What is the purpose of an OS?', choices: ['Manage hardware and software', 'Store user files', 'Send email', 'Protect against viruses'], a: 'Manage hardware and software', topic: 'it', hard: false },
+            { q: 'What is a bit?', choices: ['Binary digit', 'Byte pair', 'Buffer index', 'Bank instruction'], a: 'Binary digit', topic: 'it', hard: false },
+            { q: 'Which system connects computers in a small area?', choices: ['LAN', 'WAN', 'PAN', 'MAN'], a: 'LAN', topic: 'it', hard: false },
+            { q: 'What is a firmware?', choices: ['Software in hardware', 'Cloud service', 'User interface', 'Antivirus'], a: 'Software in hardware', topic: 'it', hard: true },
+            { q: 'What is a shell?', choices: ['Command interface', 'Web browser', 'Network cable', 'Storage drive'], a: 'Command interface', topic: 'it', hard: false },
+            { q: 'Which address is assigned to one computer only?', choices: ['Unicast', 'Broadcast', 'Multicast', 'Anycast'], a: 'Unicast', topic: 'network', hard: true }
+        ];
+
+        const triviaHardChance = 0.4;
+        const triviaQuestionCount = 15;
+
+        const typingParagraphs = [
+            'It is 2 AM and the XAMPP server will not start again. The terminal still shows a missing module and my notes are on the table.',
+            'A student writes a comment in the code: // fix later after class. The keyboard feels heavier near deadline.',
+            'The router config is saved but the network still drops. I check the packet capture while drinking instant coffee.',
+            'The lab exercise asks to normalize the table. I rewrite every row and hope the SQL query returns the correct join.',
+            'My phone buzzes while I document the web page. The header says responsive, the footer says I need more sleep.',
+            'HTML elements stack and the CSS is still not aligning. A small margin on the container solves the layout issue.',
+            'I write a loop that prints each item. The array is long, but the code is short and clean after a quick refactor.',
+            'The professor asked for a login page with PHP and SQL. I type the form fields and test the credentials twice.',
+            'An error message reads: Cannot connect to database. I check the server, the password, and the network again.',
+            'The deadline is tomorrow. I save the Laravel project, update the models, and send the GitHub link to my group.',
+            'The keyboard clacks at midnight while I rewrite the CSS. The new layout finally fits on the phone screen.',
+            'I compare two functions and choose the one with fewer nested if statements. Cleaner code helps when bugs appear.',
+            'A console warning appears in the browser: missing semicolon. I fix it and refresh the page without hesitation.',
+            'Walking to class, I think about subnet masks and how a /26 network can fit 62 users. It feels practical and real.',
+            'The IT student journal says: I spent my allowance on load, coffee, and hope. Tomorrow I submit the project.',
+            'A short description of a mobile app reads: track expenses, save receipts, and get alerts for weekly budget goals.',
+            'The web page shows error 404 when a route is wrong. I correct the path and the navigation works again.',
+            'A text editor window is open with HTML, CSS, and JavaScript. The page is simple, but the logic is solid.',
+            'I document the API endpoints and the query examples. The backend team reads each note like a map of the system.',
+            'The paragraph mentions: Surigao City internet is slow, but local code still runs fast on the laptop.',
+            'The line says: Press enter to submit, then wait while the form validates input and shows the success message.',
+            'I type the command to build the app. The output logs compile, bundle, and launch the browser with the page ready.',
+            'A developer writes: when in doubt, trace the packets, inspect the logs, and keep the code simple enough to understand.',
+            'The notebook says: the DOST scholar uses every free hour to learn SQL joins, HTML forms, and mobile app layouts.',
+            'The file contains a bug fix for the login form. The new code checks the password and displays a friendly message.',
+            'I write the function signature, add a comment, and then test the edge cases before I move on to the next task.',
+            'The keyboard is sticky and the screen is warm. I keep going until the app works exactly as the design asks.',
+            'My notes describe a student life where deadlines, network labs, and coffee are part of each day.',
+            'A small note says: use strict mode, keep the input trimmed, and do not let invalid values break the page.',
+            'The paragraph mentions: the lab PC has limited memory, so I optimize the query and reduce the page size.'
+        ];
+
+        const codeSnippets = [
+            { code: 'console.log(1 + 2 * 3);', output: '7', explanation: 'Multiplication happens before addition.' },
+            { code: 'console.log("3" + 2);', output: '32', explanation: 'String concatenation converts the number to text.' },
+            { code: 'console.log("6" - 2);', output: '4', explanation: 'Subtraction coerces the string to a number.' },
+            { code: 'console.log(0.1 + 0.2 === 0.3);', output: 'false', explanation: 'Floating point math is not exact in JavaScript.' },
+            { code: 'console.log([1, 2, 3].includes(2));', output: 'true', explanation: 'includes checks whether the array has the value.' },
+            { code: 'console.log(typeof null);', output: 'object', explanation: 'JavaScript returns object for null due to legacy behavior.' },
+            { code: 'console.log("abc".charAt(1));', output: 'b', explanation: 'charAt returns the character at index 1.' },
+            { code: 'console.log(["a", "b"].length);', output: '2', explanation: 'Length counts array elements.' },
+            { code: 'console.log([].length);', output: '0', explanation: 'An empty array has zero elements.' },
+            { code: 'console.log([1, 2, 3].pop());', output: '3', explanation: 'pop returns the removed last item.' },
+            { code: 'console.log("hello".toUpperCase());', output: 'HELLO', explanation: 'toUpperCase returns uppercase string.' },
+            { code: 'const x = 5; console.log(x >= 5);', output: 'true', explanation: '5 is greater than or equal to 5.' },
+            { code: 'console.log(2 + true);', output: '3', explanation: 'true converts to 1 when added to a number.' },
+            { code: 'console.log(2 + false);', output: '2', explanation: 'false converts to 0 when added.' },
+            { code: 'console.log("5" * "2");', output: '10', explanation: 'Multiplication coerces both strings to numbers.' },
+            { code: 'console.log("5" / 2);', output: '2.5', explanation: 'Division converts the string to a number.' },
+            { code: 'const a = [1,2]; const b = a; b.push(3); console.log(a.length);', output: '3', explanation: 'Arrays are referenced by the same object.' },
+            { code: 'console.log([1,2] + [3,4]);', output: '1,23,4', explanation: 'Array plus array converts each to string and concatenates.' },
+            { code: 'console.log("5" == 5);', output: 'true', explanation: 'Loose equality coerces types before comparing.' },
+            { code: 'console.log("5" === 5);', output: 'false', explanation: 'Strict equality does not coerce types.' },
+            { code: 'console.log(typeof undefined);', output: 'undefined', explanation: 'undefined is its own type.' },
+            { code: 'console.log([1, 2, 3].slice(1, 3));', output: '2,3', explanation: 'slice returns elements from index 1 up to 3, not including 3.' },
+            { code: 'console.log("foo".includes("o"));', output: 'true', explanation: 'includes checks if the substring appears.' },
+            { code: 'const x = null; console.log(x ?? "default");', output: 'default', explanation: 'Nullish coalescing uses the right side when value is null or undefined.' },
+            { code: 'console.log([1,2,3].indexOf(2));', output: '1', explanation: 'indexOf returns the index of the first matching value.' },
+            { code: 'function f(x) { return x * 2; } console.log(f(4));', output: '8', explanation: 'The function multiplies the argument by two.' },
+            { code: 'console.log("abc".repeat(2));', output: 'abcabc', explanation: 'repeat duplicates the string the specified number of times.' },
+            { code: 'console.log(3 > 2 && 2 > 1);', output: 'true', explanation: 'Both comparisons are true, so AND returns true.' },
+            { code: 'console.log(3 > 2 || 2 < 1);', output: 'true', explanation: 'OR returns true if one condition is true.' },
+            { code: 'console.log(!(3 === 2));', output: 'true', explanation: 'The negation of false is true.' },
+            { code: 'const arr = [1, 2, 3]; console.log(arr[3]);', output: 'undefined', explanation: 'There is no element at index 3.' },
+            { code: 'console.log("10" - "4" - "3");', output: '3', explanation: 'Each subtraction converts strings to numbers.' },
+            { code: 'console.log("10" + 1 + 1);', output: '1011', explanation: 'Addition with a string concatenates following values.' },
+            { code: 'console.log(5 && 0);', output: '0', explanation: 'AND returns the first falsy value.' },
+            { code: 'console.log(0 || 5);', output: '5', explanation: 'OR returns the first truthy value.' },
+            { code: 'console.log(Boolean(""));', output: 'false', explanation: 'Empty string is falsy.' },
+            { code: 'console.log(Boolean("0"));', output: 'true', explanation: 'Non-empty string is truthy.' },
+            { code: 'console.log(Math.max(3, 7, 5));', output: '7', explanation: 'max returns the largest number.' },
+            { code: 'console.log([1, 2].join("-"));', output: '1-2', explanation: 'join concatenates array elements with the separator.' },
+            { code: 'console.log(typeof NaN);', output: 'number', explanation: 'NaN is still considered a number in JavaScript.' },
+            { code: 'console.log(Number("123abc"));', output: 'NaN', explanation: 'Invalid numeric text converts to NaN.' },
+            { code: 'const obj = { x: 1 }; console.log("x" in obj);', output: 'true', explanation: 'in checks for property existence.' },
+            { code: 'const a = [1, 2]; a[1] = 5; console.log(a[1]);', output: '5', explanation: 'Assignment changes the array element.' },
+            { code: 'console.log(typeof [1,2,3]);', output: 'object', explanation: 'Arrays are objects in JavaScript.' },
+            { code: 'console.log([].concat([1],[2]));', output: '1,2', explanation: 'concat merges arrays into a new array.' },
+            { code: 'print(3 + 4)', output: '7', explanation: 'Adds the two integers and prints the result.' },
+            { code: 'print("hi" * 2)', output: 'hihi', explanation: 'String multiplication repeats the string.' },
+            { code: 'print(len([1, 2, 3]))', output: '3', explanation: 'len returns the number of items in the list.' },
+            { code: 'print("a" in "abc")', output: 'True', explanation: 'The substring "a" appears in "abc".' },
+            { code: 'print(5 // 2)', output: '2', explanation: 'Floor division rounds down to integer.' },
+            { code: 'print([1,2,3][1])', output: '2', explanation: 'Index 1 returns the second element.' },
+            { code: 'print("abc"[1:3])', output: 'bc', explanation: 'Slice returns characters from index 1 up to 3.' },
+            { code: 'print(2 ** 3)', output: '8', explanation: 'Exponentiation raises 2 to the power 3.' },
+            { code: 'print("foo".upper())', output: 'FOO', explanation: 'upper converts the string to uppercase.' },
+            { code: 'print("Hello".startswith("H"))', output: 'True', explanation: 'startswith checks the first character.' },
+            { code: 'print([1,2] + [3])', output: '[1, 2, 3]', explanation: 'List concatenation merges lists.' },
+            { code: 'print(10 % 3)', output: '1', explanation: 'Modulus returns the remainder.' },
+            { code: 'print(type(5).__name__)', output: 'int', explanation: 'type(...).__name__ gives the class name.' },
+            { code: 'print("{}".format(5))', output: '5', explanation: 'format inserts the value into the string.' },
+            { code: 'x = [1]; x.append(2); print(x)', output: '[1, 2]', explanation: 'append adds an element to the list.' },
+            { code: 'print("yes" if 5 > 3 else "no")', output: 'yes', explanation: 'Ternary expression chooses based on condition.' },
+            { code: 'print([i for i in range(3)])', output: '[0, 1, 2]', explanation: 'List comprehension builds a list from a range.' },
+            { code: 'print("foo" + str(2))', output: 'foo2', explanation: 'str converts the number before concatenation.' },
+            { code: 'print(3 == 3.0)', output: 'True', explanation: 'Integers and floats can compare equal if values match.' },
+            { code: 'print("A".lower())', output: 'a', explanation: 'lower converts the string to lowercase.' },
+            { code: 'print([1,2,3][-1])', output: '3', explanation: 'Negative index counts from the end.' },
+            { code: 'print("hello"[::2])', output: 'hlo', explanation: 'Slice with step skips every second character.' },
+            { code: 'print([1,2,3].count(2))', output: '1', explanation: 'count returns how often the value appears.' },
+            { code: 'print("X" * 0)', output: '', explanation: 'Repeating zero times gives an empty string.' },
+            { code: 'print(bool(""))', output: 'False', explanation: 'Empty string is false in Python.' },
+            { code: 'print(bool([0]))', output: 'True', explanation: 'Non-empty lists are truthy.' },
+            { code: 'print([1,2] == [1,2])', output: 'True', explanation: 'List equality checks elements, not object identity.' },
+            { code: 'print({"a": 1}.get("b", 0))', output: '0', explanation: 'get returns default when key is missing.' }
+        ];
+
+        const binaryValues = Array.from({ length: 95 }, (_, index) => index + 32);
+        let binaryOrder = shuffle(binaryValues);
+        let binaryPointer = 0;
+
+        const subnetQuestionTypes = [
+            'mask', 'hosts', 'network', 'broadcast', 'subnetsFrom24', 'sameSubnet', 'firstHost', 'lastHost'
+        ];
+
+        const budgetItems = [
+            { id: 'yum', emoji: '🍔', name: 'Jollibee Yum Burger', price: 65, category: 'food', desc: 'Quick burger for lab days.' },
+            { id: 'rice', emoji: '🍚', name: '1 cup rice + ulam', price: 45, category: 'food', desc: 'Simple meal between classes.' },
+            { id: 'mang', emoji: '🍗', name: 'Mang Inasal rice meal', price: 120, category: 'food', desc: 'Filling chicken on budget.' },
+            { id: 'goro', emoji: '🍜', name: 'Instant noodles pack', price: 15, category: 'food', desc: 'Late-night coding comfort.' },
+            { id: 'water', emoji: '💧', name: '500mL bottled water', price: 15, category: 'food', desc: 'Stay hydrated for study sessions.' },
+            { id: 'coffee', emoji: '☕', name: 'Sachet coffee', price: 8, category: 'food', desc: 'Affordable caffeine boost.' },
+            { id: 'milktea', emoji: '🧋', name: 'Milk tea', price: 85, category: 'food', desc: 'Reward after a long lab.' },
+            { id: 'buko', emoji: '🥥', name: 'Buko juice', price: 25, category: 'food', desc: 'Fresh Filipino street drink.' },
+            { id: 'banana', emoji: '🍌', name: 'Banana cue', price: 10, category: 'food', desc: 'Sweet snack between classes.' },
+            { id: 'fishball', emoji: '🍢', name: 'Street fish ball stick', price: 5, category: 'food', desc: 'Snack with spicy sauce.' },
+            { id: 'print', emoji: '🖨️', name: 'Printed module', price: 20, category: 'academic', desc: 'Printed notes for reference.' },
+            { id: 'pen', emoji: '🖊️', name: 'Ballpen', price: 12, category: 'academic', desc: 'Writes through lecture notes.' },
+            { id: 'pad', emoji: '📒', name: 'Yellow pad paper', price: 18, category: 'academic', desc: 'For scribbling subnet diagrams.' },
+            { id: 'usb', emoji: '💾', name: 'USB flash drive', price: 180, category: 'academic', desc: 'Store projects and backups.' },
+            { id: 'highlighter', emoji: '🖍️', name: 'Highlighter set', price: 45, category: 'academic', desc: 'Color code your notes.' },
+            { id: 'idcard', emoji: '📛', name: 'Laminated ID', price: 35, category: 'academic', desc: 'Keep the student card safe.' },
+            { id: 'load', emoji: '📱', name: '₱50 phone load', price: 50, category: 'load', desc: 'Check messages during study break.' },
+            { id: 'gcash', emoji: '💳', name: '₱100 GCash top-up', price: 100, category: 'load', desc: 'Pay bills or buy load.' },
+            { id: 'case', emoji: '📱', name: 'Phone case', price: 150, category: 'tech', desc: 'Protect the study phone.' },
+            { id: 'earphone', emoji: '🎧', name: 'Earphone', price: 199, category: 'tech', desc: 'Listen to playlists while coding.' },
+            { id: 'jeep', emoji: '🚍', name: 'Jeepney ride', price: 14, category: 'transport', desc: 'Commute between classes.' },
+            { id: 'trike', emoji: '🚕', name: 'Tricycle ride', price: 20, category: 'transport', desc: 'Short trip to the campus gate.' },
+            { id: 'laundry', emoji: '🧺', name: 'Laundry', price: 60, category: 'misc', desc: 'Keep the uniform clean.' },
+            { id: 'photocopy', emoji: '📄', name: 'Photocopy page', price: 3, category: 'misc', desc: 'Copy a sheet for the group.', },
+            { id: 'haircut', emoji: '💇', name: 'Haircut', price: 80, category: 'misc', desc: 'Fresh look for a presentation.' },
+            { id: 'soap', emoji: '🧼', name: 'Face wash sachet', price: 12, category: 'misc', desc: 'Quick hygiene fix.' },
+            { id: 'pan', emoji: '🍳', name: 'Pandesal and coffee', price: 40, category: 'food', desc: 'Morning breakfast before lab.' },
+            { id: 'load2', emoji: '📶', name: '30-minute Wi-Fi', price: 30, category: 'tech', desc: 'Fast study download for one hour.' },
+            { id: 'snacks', emoji: '🍪', name: 'Snack pack', price: 35, category: 'food', desc: 'Cookies for the group project.' },
+            { id: 'notebook', emoji: '📓', name: 'Spiral notebook', price: 65, category: 'academic', desc: 'Record lecture notes clearly.' },
+            { id: 'charger', emoji: '🔌', name: 'Phone charger', price: 120, category: 'tech', desc: 'Backup power for the phone.' },
+            { id: 'umbrella', emoji: '☂️', name: 'Foldable umbrella', price: 55, category: 'misc', desc: 'Rain or shine on campus.' },
+            { id: 'mask', emoji: '😷', name: 'Face mask pack', price: 30, category: 'misc', desc: 'Stay safe during classes.' },
+            { id: 'waterbottle', emoji: '🥤', name: 'Reusable bottle', price: 90, category: 'misc', desc: 'Bring water to the lab.', },
+            { id: 'snack2', emoji: '🍛', name: 'Sari-sari rice meal', price: 55, category: 'food', desc: 'Budget street food dinner.' },
+            { id: 'fan', emoji: '🌀', name: 'Mini desk fan', price: 140, category: 'tech', desc: 'Stay cool while studying.' },
+            { id: 'keycaps', emoji: '⌨️', name: 'Keycap set', price: 210, category: 'tech', desc: 'Make the keyboard feel premium.' },
+            { id: 'junk', emoji: '🎟️', name: 'School ID renewal', price: 25, category: 'misc', desc: 'Renew the ID for new sem.', }
+        ];
+
+        const gameModules = {
+            trivia: {
+                init(container, close) {
+                    this.container = container;
+                    this.close = close;
+                    this.state = {
+                        questions: [],
+                        currentIndex: 0,
+                        score: 0,
+                        correct: 0,
+                        bonus: 0,
+                        timeLeft: 20000,
+                        paused: false,
+                        timerEnd: 0,
+                        timerRaf: null,
+                        selected: null,
+                        unlocked: false,
+                        visibilityCleanup: null
+                    };
+                    this.renderLobby();
+                },
+                start() {
+                    this.state.questions = this.prepareQuestions();
+                    this.state.currentIndex = 0;
+                    this.state.score = 0;
+                    this.state.correct = 0;
+                    this.state.bonus = 0;
+                    this.renderQuestion();
+                },
+                cleanup() {
+                    if (this.state.timerRaf) cancelAnimationFrame(this.state.timerRaf);
+                    if (this.state.visibilityCleanup) this.state.visibilityCleanup();
+                },
+                getShuffledChoices(question) {
+                    return shuffle(question.choices.slice());
+                },
+                prepareQuestions() {
+                    const pool = shuffle(triviaQuestions);
+                    const hardPool = pool.filter(q => q.hard);
+                    const normalPool = pool.filter(q => !q.hard);
+                    const selected = [];
+                    if (Math.random() < triviaHardChance) {
+                        const hardPick = shuffle(hardPool).slice(0, 6);
+                        selected.push(...hardPick);
+                        const rest = shuffle(normalPool).slice(0, triviaQuestionCount - hardPick.length);
+                        selected.push(...rest);
+                    } else {
+                        selected.push(...shuffle(pool).slice(0, triviaQuestionCount));
+                    }
+                    return shuffle(selected);
+                },
+                renderLobby() {
+                    this.container.innerHTML = '';
+                    const intro = createElement('div', { class: 'game-section' }, []);
+                    intro.appendChild(createElement('div', { class: 'panel' }, []));
+                    intro.querySelector('.panel').appendChild(createElement('p', { class: 'panel-copy', text: 'Answer 15 timed trivia questions on networking, security, programming, web, databases, and general IT.' }));
+                    intro.appendChild(createElement('div', { class: 'status-row' }, []));
+                    this.container.appendChild(intro);
+                },
+                renderQuestion() {
+                    const state = this.state;
+                    const question = state.questions[state.currentIndex];
+                    state.selected = null;
+                    state.timeLeft = 20000;
+                    state.timerEnd = Date.now() + state.timeLeft;
+                    state.paused = false;
+                    if (state.visibilityCleanup) state.visibilityCleanup();
+                    state.visibilityCleanup = visibleTimeRunner((status, delta) => {
+                        if (status === 'pause') this.pauseTimer();
+                        if (status === 'resume') this.resumeTimer(delta);
+                    });
+                    this.container.innerHTML = '';
+                    const header = createElement('div', { class: 'game-section' });
+                    header.appendChild(createElement('div', { class: 'panel' }, []));
+                    header.querySelector('.panel').appendChild(createElement('p', { class: 'panel-copy', text: `Question ${state.currentIndex + 1} of ${triviaQuestionCount}` }));
+                    this.container.appendChild(header);
+                    const questionCard = createElement('div', { class: 'panel' }, []);
+                    questionCard.appendChild(createElement('p', { class: 'panel-title', text: question.q }));
+                    const timerText = createElement('div', { class: 'status-row' });
+                    timerText.appendChild(createElement('div', { class: 'status-pill', text: 'Time left: 20s' }));
+                    timerText.appendChild(createElement('div', { class: 'status-pill', text: `Score: ${state.score}` }));
+                    timerText.appendChild(createElement('div', { class: 'status-pill', text: `Bonus: ${state.bonus}` }));
+                    questionCard.appendChild(timerText);
+                    const choices = createElement('div', { class: 'button-group' });
+                    this.getShuffledChoices(question).forEach(choice => {
+                        const button = createElement('button', { class: 'btn secondary', type: 'button', text: choice });
+                        button.addEventListener('click', () => this.selectAnswer(choice, button, question));
+                        choices.appendChild(button);
+                    });
+                    questionCard.appendChild(choices);
+                    const progress = createElement('div', { class: 'meter' });
+                    const progressFill = createElement('div', { class: 'meter-fill' });
+                    progress.appendChild(progressFill);
+                    questionCard.appendChild(progress);
+                    this.container.appendChild(questionCard);
+                    this.updateTimer(progressFill, timerText.querySelector('.status-pill'));
+                },
+                updateTimer(fill, timerLabel) {
+                    const update = () => {
+                        const now = Date.now();
+                        const remaining = Math.max(0, this.state.timerEnd - now);
+                        const seconds = Math.ceil(remaining / 1000);
+                        fill.style.width = `${(remaining / 20000) * 100}%`;
+                        timerLabel.textContent = `Time left: ${seconds}s`;
+                        if (remaining <= 0) {
+                            this.handleTimeout();
+                        } else {
+                            this.state.timerRaf = requestAnimationFrame(update);
+                        }
+                    };
+                    if (this.state.timerRaf) cancelAnimationFrame(this.state.timerRaf);
+                    this.state.timerRaf = requestAnimationFrame(update);
+                },
+                pauseTimer() {
+                    if (this.state.paused) return;
+                    this.state.paused = true;
+                    this.state.pauseRemaining = this.state.timerEnd - Date.now();
+                    if (this.state.timerRaf) cancelAnimationFrame(this.state.timerRaf);
+                },
+                resumeTimer(delta) {
+                    if (!this.state.paused) return;
+                    this.state.paused = false;
+                    this.state.timerEnd = Date.now() + Math.max(0, this.state.pauseRemaining);
+                    this.renderQuestion();
+                },
+                selectAnswer(choice, button, question) {
+                    if (this.state.selected) return;
+                    this.state.selected = choice;
+                    if (this.state.timerRaf) cancelAnimationFrame(this.state.timerRaf);
+                    const correct = choice === question.a;
+                    const timeTaken = 20000 - Math.max(0, this.state.timerEnd - Date.now());
+                    if (correct) {
+                        this.state.score += 10;
+                        this.state.correct += 1;
+                        if (timeTaken < 5000) {
+                            this.state.score += 5;
+                            this.state.bonus += 1;
+                        }
+                        button.classList.add('primary');
+                    } else {
+                        button.classList.add('danger');
+                    }
+                    const buttons = this.container.querySelectorAll('.btn.secondary');
+                    buttons.forEach(btn => {
+                        btn.disabled = true;
+                        if (btn.textContent === question.a) btn.classList.add('success');
+                    });
+                    if (!correct) {
+                        this.container.querySelector('.status-pill').classList.add('danger');
+                    }
+                    setTimeout(() => this.nextTrivia(), 1500);
+                },
+                handleTimeout() {
+                    if (this.state.selected) return;
+                    this.state.selected = true;
+                    const question = this.state.questions[this.state.currentIndex];
+                    const buttons = this.container.querySelectorAll('.btn.secondary');
+                    buttons.forEach(btn => {
+                        btn.disabled = true;
+                        if (btn.textContent === question.a) btn.classList.add('success');
+                    });
+                    setTimeout(() => this.nextTrivia(), 1500);
+                },
+                nextTrivia() {
+                    this.state.currentIndex += 1;
+                    if (this.state.currentIndex >= triviaQuestionCount) {
+                        this.showResults();
+                    } else {
+                        this.renderQuestion();
+                    }
+                },
+                showResults() {
+                    const state = this.state;
+                    const score = state.score;
+                    let label = 'Keep studying, IT is hard';
+                    if (score > 50 && score <= 100) label = 'Not bad. Cisco would hire you as an intern';
+                    if (score > 100 && score <= 150) label = 'Solid. You clearly read the module';
+                    if (score > 150) label = 'Scary good. Are you actually a network engineer?';
+                    this.container.innerHTML = '';
+                    const resultPanel = createElement('div', { class: 'game-section' });
+                    const summary = createElement('div', { class: 'panel' });
+                    summary.appendChild(createElement('p', { class: 'panel-title', text: 'Trivia results' }));
+                    summary.appendChild(createElement('p', { class: 'panel-copy', text: `Score ${score}, correct ${state.correct}, bonus ${state.bonus}.` }));
+                    summary.appendChild(createElement('p', { class: 'panel-copy', text: label }));
+                    resultPanel.appendChild(summary);
+                    const stats = createElement('div', { class: 'stats-grid' });
+                    stats.appendChild(this.createStat('Total points', score));
+                    stats.appendChild(this.createStat('Correct answers', state.correct));
+                    stats.appendChild(this.createStat('Time bonuses', state.bonus));
+                    stats.appendChild(this.createStat('Accuracy', `${Math.round((state.correct / triviaQuestionCount) * 100)}%`));
+                    resultPanel.appendChild(stats);
+                    const actions = createElement('div', { class: 'button-group' });
+                    const retry = createElement('button', { class: 'btn primary', type: 'button', text: 'Play again' });
+                    retry.addEventListener('click', () => this.start());
+                    const close = createElement('button', { class: 'btn secondary', type: 'button', text: 'Close' });
+                    close.addEventListener('click', this.close);
+                    actions.appendChild(retry);
+                    actions.appendChild(close);
+                    resultPanel.appendChild(actions);
+                    this.container.appendChild(resultPanel);
+                },
+                createStat(label, value) {
+                    const box = createElement('div', { class: 'stat-box' });
+                    box.appendChild(createElement('p', { class: 'stat-value', text: String(value) }));
+                    box.appendChild(createElement('p', { class: 'stat-label', text: label }));
+                    return box;
+                }
+            },
+            circle: {
+                init(container, close) {
+                    this.container = container;
+                    this.close = close;
+                    this.points = [];
+                    this.isDrawing = false;
+                    this.bestScore = sessionStorage.getItem('circleBest') ? Number(sessionStorage.getItem('circleBest')) : 0;
+                    this.render();
+                },
+                start() {
+                    this.clearCanvas();
+                },
+                cleanup() {
+                    this.removePointerListeners();
+                },
+                render() {
+                    this.container.innerHTML = '';
+                    const gameArea = createElement('div', { class: 'game-section' });
+                    const intro = createElement('div', { class: 'panel' });
+                    intro.appendChild(createElement('p', { class: 'panel-copy', text: 'Draw a freehand circle on the canvas. The score measures radius consistency, closure, and smoothness.' }));
+                    gameArea.appendChild(intro);
+                    const canvasWrapper = createElement('div', { class: 'panel', style: 'padding: 1rem;' });
+                    this.canvas = document.createElement('canvas');
+                    this.canvas.width = 500;
+                    this.canvas.height = 500;
+                    this.canvas.style.width = '100%';
+                    this.canvas.style.maxWidth = '500px';
+                    this.canvas.style.borderRadius = '1rem';
+                    this.canvas.style.background = 'rgba(15,23,42,0.9)';
+                    this.canvas.className = 'circle-canvas';
+                    canvasWrapper.appendChild(this.canvas);
+                    gameArea.appendChild(canvasWrapper);
+                    this.resultPanel = createElement('div', { class: 'panel' });
+                    this.resultPanel.appendChild(createElement('p', { class: 'panel-copy', text: 'Score will appear here after you lift the pen/finger. Minimum 20 points required.' }));
+                    this.scoreValue = createElement('p', { class: 'stat-value', text: '0%' });
+                    this.resultLabel = createElement('p', { class: 'panel-copy', text: '' });
+                    this.resultPanel.appendChild(this.scoreValue);
+                    this.resultPanel.appendChild(this.resultLabel);
+                    this.bestLine = createElement('p', { class: 'panel-copy', text: `Best this session: ${this.bestScore}%` });
+                    this.resultPanel.appendChild(this.bestLine);
+                    const controls = createElement('div', { class: 'button-group' });
+                    const reset = createElement('button', { class: 'btn primary', type: 'button', text: 'Try again' });
+                    reset.addEventListener('click', () => this.clearCanvas());
+                    const close = createElement('button', { class: 'btn secondary', type: 'button', text: 'Close' });
+                    close.addEventListener('click', this.close);
+                    controls.appendChild(reset);
+                    controls.appendChild(close);
+                    this.resultPanel.appendChild(controls);
+                    gameArea.appendChild(this.resultPanel);
+                    this.container.appendChild(gameArea);
+                    this.ctx = this.canvas.getContext('2d');
+                    this.bindCanvas();
+                    this.clearCanvas();
+                },
+                bindCanvas() {
+                    this.pointerDown = event => {
+                        event.preventDefault();
+                        this.isDrawing = true;
+                        this.points = [];
+                        const point = this.getCanvasPoint(event);
+                        this.addPoint(point);
+                    };
+                    this.pointerMove = event => {
+                        if (!this.isDrawing) return;
+                        const point = this.getCanvasPoint(event);
+                        this.addPoint(point);
+                        this.drawPath();
+                    };
+                    this.pointerUp = event => {
+                        if (!this.isDrawing) return;
+                        this.isDrawing = false;
+                        if (this.points.length >= 20) {
+                            this.evaluate();
+                        } else {
+                            this.showResult(0, 'Did you even try?');
+                        }
+                    };
+                    this.canvas.addEventListener('mousedown', this.pointerDown);
+                    this.canvas.addEventListener('mousemove', this.pointerMove);
+                    window.addEventListener('mouseup', this.pointerUp);
+                    this.canvas.addEventListener('touchstart', this.pointerDown, { passive: false });
+                    this.canvas.addEventListener('touchmove', this.pointerMove, { passive: false });
+                    window.addEventListener('touchend', this.pointerUp);
+                },
+                removePointerListeners() {
+                    this.canvas.removeEventListener('mousedown', this.pointerDown);
+                    this.canvas.removeEventListener('mousemove', this.pointerMove);
+                    window.removeEventListener('mouseup', this.pointerUp);
+                    this.canvas.removeEventListener('touchstart', this.pointerDown);
+                    this.canvas.removeEventListener('touchmove', this.pointerMove);
+                    window.removeEventListener('touchend', this.pointerUp);
+                },
+                getCanvasPoint(event) {
+                    const rect = this.canvas.getBoundingClientRect();
+                    const touch = event.touches ? event.touches[0] : null;
+                    const clientX = touch ? touch.clientX : event.clientX;
+                    const clientY = touch ? touch.clientY : event.clientY;
+                    return {
+                        x: ((clientX - rect.left) / rect.width) * this.canvas.width,
+                        y: ((clientY - rect.top) / rect.height) * this.canvas.height
+                    };
+                },
+                addPoint(point) {
+                    const lastPoint = this.points[this.points.length - 1];
+                    if (lastPoint && Math.hypot(point.x - lastPoint.x, point.y - lastPoint.y) < 2) return;
+                    this.points.push(point);
+                },
+                clearCanvas() {
+                    this.isDrawing = false;
+                    this.points = [];
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    this.ctx.fillStyle = 'rgba(15,23,42,0.9)';
+                    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                    this.scoreValue.textContent = '0%';
+                    this.resultLabel.textContent = 'Draw a circle to see the score.';
+                },
+                drawPath() {
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    this.ctx.fillStyle = 'rgba(15,23,42,0.9)';
+                    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                    if (this.points.length < 2) return;
+                    this.ctx.strokeStyle = '#3b82f6';
+                    this.ctx.lineWidth = 5;
+                    this.ctx.lineJoin = 'round';
+                    this.ctx.lineCap = 'round';
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(this.points[0].x, this.points[0].y);
+                    for (let i = 1; i < this.points.length; i += 1) {
+                        this.ctx.lineTo(this.points[i].x, this.points[i].y);
+                    }
+                    this.ctx.stroke();
+                },
+                evaluate() {
+                    const points = this.points;
+                    const centroid = points.reduce((acc, p) => ({ x: acc.x + p.x, y: acc.y + p.y }), { x: 0, y: 0 });
+                    centroid.x /= points.length;
+                    centroid.y /= points.length;
+                    const distances = points.map(p => Math.hypot(p.x - centroid.x, p.y - centroid.y));
+                    const avgRadius = distances.reduce((sum, n) => sum + n, 0) / distances.length;
+                    const variance = distances.reduce((sum, n) => sum + Math.abs(n - avgRadius), 0) / distances.length;
+                    const radiusScore = clamp(1 - variance / (avgRadius * 0.4), 0, 1);
+                    const closure = Math.hypot(points[0].x - points[points.length - 1].x, points[0].y - points[points.length - 1].y);
+                    const closureScore = clamp(1 - closure / (avgRadius * 0.1), 0, 1);
+                    const angles = [];
+                    for (let i = 2; i < points.length; i += 1) {
+                        const a = Math.atan2(points[i - 1].y - points[i - 2].y, points[i - 1].x - points[i - 2].x);
+                        const b = Math.atan2(points[i].y - points[i - 1].y, points[i].x - points[i - 1].x);
+                        let diff = Math.abs(a - b);
+                        if (diff > Math.PI) diff = 2 * Math.PI - diff;
+                        angles.push(diff);
+                    }
+                    const angular = angles.length ? angles.reduce((sum, n) => sum + n, 0) / angles.length : Math.PI / 2;
+                    const smoothScore = clamp(1 - angular / (Math.PI / 2), 0, 1);
+                    let score = Math.round((radiusScore * 0.5 + closureScore * 0.25 + smoothScore * 0.25) * 100);
+                    if (points.length < 20) score = 0;
+                    this.redrawResults(centroid, avgRadius);
+                    let label = 'Did you even try?';
+                    if (score > 40 && score <= 60) label = "That's an oval, not a circle";
+                    if (score > 60 && score <= 75) label = 'Decent. A compass would have helped';
+                    if (score > 75 && score <= 89) label = 'Impressive. Your hand is steady';
+                    if (score > 89 && score <= 96) label = 'Almost perfect. Freakishly good';
+                    if (score > 96) label = 'Perfect. Are you even human?';
+                    this.showResult(score, label);
+                    if (score > this.bestScore) {
+                        this.bestScore = score;
+                        sessionStorage.setItem('circleBest', String(score));
+                        this.bestLine.textContent = `Best this session: ${this.bestScore}%`;
+                    }
+                    if (score >= 90) showConfetti();
+                },
+                redrawResults(centroid, avgRadius) {
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    this.ctx.fillStyle = 'rgba(15,23,42,0.9)';
+                    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                    if (this.points.length > 1) {
+                        this.ctx.strokeStyle = '#3b82f6';
+                        this.ctx.lineWidth = 5;
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(this.points[0].x, this.points[0].y);
+                        this.points.forEach((p, index) => { if (index) this.ctx.lineTo(p.x, p.y); });
+                        this.ctx.stroke();
+                    }
+                    this.ctx.strokeStyle = 'rgba(59,130,246,0.45)';
+                    this.ctx.lineWidth = 3;
+                    this.ctx.setLineDash([10, 12]);
+                    this.ctx.beginPath();
+                    this.ctx.arc(centroid.x, centroid.y, avgRadius, 0, Math.PI * 2);
+                    this.ctx.stroke();
+                    this.ctx.setLineDash([]);
+                },
+                showResult(score, label) {
+                    this.scoreValue.textContent = `${score}%`;
+                    this.resultLabel.textContent = label;
+                }
+            },
+            typing: {
+                init(container, close) {
+                    this.container = container;
+                    this.close = close;
+                    this.state = { started: false, errors: 0, currentIndex: 0, startTime: 0, elapsed: 0, timerId: null, bestWpm: Number(sessionStorage.getItem('typingBest') || 0), paused: false, visibilityCleanup: null, strictError: false };
+                    this.render();
+                },
+                start() {
+                    this.reset();
+                },
+                cleanup() {
+                    if (this.state.visibilityCleanup) this.state.visibilityCleanup();
+                },
+                render() {
+                    this.container.innerHTML = '';
+                    const area = createElement('div', { class: 'game-section' });
+                    area.appendChild(createElement('div', { class: 'panel' }, []));
+                    area.querySelector('.panel').appendChild(createElement('p', { class: 'panel-copy', text: 'Type the displayed paragraph. Strict mode requires correcting mistakes before continuing.' }));
+                    const typeBox = createElement('div', { class: 'panel' });
+                    this.textDisplay = createElement('pre', { class: 'code-block', text: '' });
+                    this.textDisplay.style.minHeight = '12rem';
+                    typeBox.appendChild(this.textDisplay);
+                    this.inputLabel = createElement('p', { class: 'small-text', text: 'Focus here and type to begin. Use Backspace to correct mistakes.' });
+                    typeBox.appendChild(this.inputLabel);
+                    this.inputField = createElement('input', { type: 'text', class: 'input-row game-input', placeholder: 'Start typing...', autocomplete: 'off', autocorrect: 'off', autocapitalize: 'off', spellcheck: 'false' });
+                    this.inputField.addEventListener('keydown', e => this.handleKey(e));
+                    this.inputField.addEventListener('paste', e => e.preventDefault());
+                    typeBox.appendChild(this.inputField);
+                    area.appendChild(typeBox);
+                    const stats = createElement('div', { class: 'stats-grid' });
+                    this.wpmBox = this.createStat('WPM', '0');
+                    this.accuracyBox = this.createStat('Accuracy', '100%');
+                    this.timeBox = this.createStat('Time', '0.0s');
+                    this.errorsBox = this.createStat('Errors', '0');
+                    stats.appendChild(this.wpmBox);
+                    stats.appendChild(this.accuracyBox);
+                    stats.appendChild(this.timeBox);
+                    stats.appendChild(this.errorsBox);
+                    area.appendChild(stats);
+                    const actionRow = createElement('div', { class: 'button-group' });
+                    const restart = createElement('button', { class: 'btn primary', type: 'button', text: 'Restart' });
+                    restart.addEventListener('click', () => this.reset());
+                    const close = createElement('button', { class: 'btn secondary', type: 'button', text: 'Close' });
+                    close.addEventListener('click', this.close);
+                    actionRow.appendChild(restart);
+                    actionRow.appendChild(close);
+                    area.appendChild(actionRow);
+                    this.container.appendChild(area);
+                    this.reset();
+                },
+                reset() {
+                    if (this.state.timerId) clearInterval(this.state.timerId);
+                    if (this.state.visibilityCleanup) this.state.visibilityCleanup();
+                    const paragraph = shuffle(typingParagraphs).find(text => text.length >= 200 && text.length <= 320) || typingParagraphs[0];
+                    this.text = paragraph;
+                    this.state.started = false;
+                    this.state.errors = 0;
+                    this.state.currentIndex = 0;
+                    this.state.startTime = 0;
+                    this.state.elapsed = 0;
+                    this.state.strictError = false;
+                    this.renderText();
+                    this.inputField.value = '';
+                    this.wpmBox.querySelector('.stat-value').textContent = '0';
+                    this.accuracyBox.querySelector('.stat-value').textContent = '100%';
+                    this.timeBox.querySelector('.stat-value').textContent = '0.0s';
+                    this.errorsBox.querySelector('.stat-value').textContent = '0';
+                    this.inputField.disabled = false;
+                    this.inputField.focus();
+                },
+                renderText() {
+                    this.textDisplay.innerHTML = '';
+                    for (let i = 0; i < this.text.length; i += 1) {
+                        const span = createElement('span', { class: 'code-line', text: this.text[i] });
+                        if (i === 0) span.style.textDecoration = 'underline';
+                        this.textDisplay.appendChild(span);
+                    }
+                    this.updateHighlight();
+                },
+                handleKey(event) {
+                    if (event.key === 'Tab') return;
+                    if (!this.state.started) {
+                        this.state.started = true;
+                        this.state.startTime = Date.now();
+                        this.state.visibilityCleanup = visibleTimeRunner((status, delta) => {
+                            if (status === 'pause') this.pauseTimer();
+                            if (status === 'resume') this.resumeTimer(delta);
+                        });
+                        this.state.timerId = setInterval(() => this.updateTimer(), 100);
+                    }
+                    if (event.key === 'Backspace') {
+                        event.preventDefault();
+                        if (this.state.currentIndex > 0) {
+                            this.state.currentIndex -= 1;
+                            this.state.strictError = false;
+                            this.updateHighlight();
+                        }
+                        return;
+                    }
+                    if (event.key.length !== 1) return;
+                    event.preventDefault();
+                    const expectedChar = this.text[this.state.currentIndex];
+                    if (this.state.strictError) {
+                        if (event.key === expectedChar) {
+                            this.state.strictError = false;
+                            this.state.currentIndex += 1;
+                        }
+                    } else if (event.key === expectedChar) {
+                        this.state.currentIndex += 1;
+                    } else {
+                        this.state.errors += 1;
+                        this.state.strictError = true;
+                    }
+                    this.updateHighlight();
+                    if (this.state.currentIndex >= this.text.length) {
+                        this.finishTyping();
+                    }
+                },
+                updateHighlight() {
+                    const spans = this.textDisplay.querySelectorAll('span');
+                    spans.forEach((span, index) => {
+                        span.className = 'code-line';
+                        span.style.background = 'transparent';
+                        span.style.color = 'inherit';
+                        if (index < this.state.currentIndex) {
+                            span.style.color = '#22c55e';
+                        }
+                        if (index === this.state.currentIndex) {
+                            span.style.textDecoration = 'underline';
+                            if (this.state.strictError) span.style.background = 'rgba(239,68,68,0.2)';
+                        }
+                    });
+                },
+                updateTimer() {
+                    this.state.elapsed = Date.now() - this.state.startTime;
+                    if (this.state.elapsed < 0) this.state.elapsed = 0;
+                    const minutes = this.state.elapsed / 60000;
+                    const wpm = minutes > 0 ? Math.round((this.state.currentIndex / 5) / minutes) : 0;
+                    const accuracy = this.state.currentIndex + this.state.errors === 0 ? 100 : Math.max(0, Math.round((this.state.currentIndex / (this.state.currentIndex + this.state.errors)) * 100));
+                    this.wpmBox.querySelector('.stat-value').textContent = String(wpm);
+                    this.accuracyBox.querySelector('.stat-value').textContent = `${accuracy}%`;
+                    this.timeBox.querySelector('.stat-value').textContent = `${(this.state.elapsed / 1000).toFixed(1)}s`;
+                    this.errorsBox.querySelector('.stat-value').textContent = String(this.state.errors);
+                },
+                pauseTimer() {
+                    if (this.state.timerId) clearInterval(this.state.timerId);
+                    this.state.paused = true;
+                },
+                resumeTimer(delta) {
+                    if (!this.state.paused) return;
+                    this.state.paused = false;
+                    this.state.startTime += delta;
+                    this.state.timerId = setInterval(() => this.updateTimer(), 100);
+                },
+                finishTyping() {
+                    if (this.state.timerId) clearInterval(this.state.timerId);
+                    this.inputField.disabled = true;
+                    const elapsed = this.state.elapsed / 60000;
+                    const wpm = elapsed > 0 ? Math.round((this.text.length / 5) / elapsed) : 0;
+                    const accuracy = this.text.length + this.state.errors === 0 ? 100 : Math.max(0, Math.round((this.text.length / (this.text.length + this.state.errors)) * 100));
+                    let label = 'Hunt-and-peck detected';
+                    if (wpm >= 30 && wpm <= 50) label = 'Average. Keep practicing';
+                    if (wpm >= 51 && wpm <= 70) label = 'Above average. Not bad for a student';
+                    if (wpm >= 71 && wpm <= 90) label = 'Fast. Probably CS-brained';
+                    if (wpm > 90 && wpm <= 120) label = 'Very fast. Are you even reading?';
+                    if (wpm > 120) label = 'Suspicious. Macro detected?';
+                    if (wpm > this.state.bestWpm) {
+                        this.state.bestWpm = wpm;
+                        sessionStorage.setItem('typingBest', String(wpm));
+                    }
+                    this.container.innerHTML = '';
+                    const result = createElement('div', { class: 'game-section' });
+                    result.appendChild(createElement('div', { class: 'panel' }, []));
+                    result.querySelector('.panel').appendChild(createElement('p', { class: 'panel-copy', text: 'Typing test complete. Review your speed, accuracy, and time below.' }));
+                    const stats = createElement('div', { class: 'stats-grid' });
+                    stats.appendChild(this.createStat('WPM', wpm));
+                    stats.appendChild(this.createStat('Accuracy', `${accuracy}%`));
+                    stats.appendChild(this.createStat('Time', `${(this.state.elapsed / 1000).toFixed(1)}s`));
+                    stats.appendChild(this.createStat('Errors', this.state.errors));
+                    result.appendChild(stats);
+                    const labelText = createElement('p', { class: 'panel-copy', text: label });
+                    result.appendChild(labelText);
+                    result.appendChild(createElement('p', { class: 'panel-copy', text: `Best this session: ${this.state.bestWpm} WPM` }));
+                    const actions = createElement('div', { class: 'button-group' });
+                    const retry = createElement('button', { class: 'btn primary', type: 'button', text: 'Try again' });
+                    retry.addEventListener('click', () => this.render());
+                    const close = createElement('button', { class: 'btn secondary', type: 'button', text: 'Close' });
+                    close.addEventListener('click', this.close);
+                    actions.appendChild(retry);
+                    actions.appendChild(close);
+                    result.appendChild(actions);
+                    this.container.appendChild(result);
+                },
+                createStat(label, value) {
+                    const box = createElement('div', { class: 'stat-box' });
+                    box.appendChild(createElement('p', { class: 'stat-value', text: String(value) }));
+                    box.appendChild(createElement('p', { class: 'stat-label', text: label }));
+                    return box;
+                }
+            },
+            binary: {
+                init(container, close) {
+                    this.container = container;
+                    this.close = close;
+                    this.state = { score: 0, streak: 0, multiplier: 1, lives: 3, rounds: 0, timeLimit: 10000, currentBinary: '', timerEnd: 0, timerRaf: null, paused: false, visibilityCleanup: null };
+                    this.render();
+                },
+                start() {
+                    this.state.score = 0;
+                    this.state.streak = 0;
+                    this.state.multiplier = 1;
+                    this.state.lives = 3;
+                    this.state.rounds = 0;
+                    binaryOrder = shuffle(binaryValues);
+                    binaryPointer = 0;
+                    this.state.timeLimit = 10000;
+                    this.renderQuestion();
+                },
+                cleanup() {
+                    if (this.state.timerRaf) cancelAnimationFrame(this.state.timerRaf);
+                    if (this.state.visibilityCleanup) this.state.visibilityCleanup();
+                },
+                render() {
+                    this.container.innerHTML = '';
+                    const intro = createElement('div', { class: 'panel' });
+                    intro.appendChild(createElement('p', { class: 'panel-copy', text: 'Type the ASCII character or decimal value for each 8-bit binary string before time runs out.' }));
+                    this.container.appendChild(intro);
+                    const status = createElement('div', { class: 'status-row' });
+                    this.scoreDisplay = createElement('div', { class: 'status-pill', text: 'Score: 0' });
+                    this.comboDisplay = createElement('div', { class: 'status-pill', text: 'Combo: 0' });
+                    this.multiplierDisplay = createElement('div', { class: 'status-pill', text: 'Multiplier: 1x' });
+                    status.appendChild(this.scoreDisplay);
+                    status.appendChild(this.comboDisplay);
+                    status.appendChild(this.multiplierDisplay);
+                    this.container.appendChild(status);
+                    this.binaryLine = createElement('p', { class: 'binary-line', text: '' });
+                    this.container.appendChild(this.binaryLine);
+                    this.timerMeter = createElement('div', { class: 'meter' });
+                    this.timerFill = createElement('div', { class: 'meter-fill' });
+                    this.timerMeter.appendChild(this.timerFill);
+                    this.container.appendChild(this.timerMeter);
+                    const inputWrapper = createElement('div', { class: 'input-row' });
+                    this.inputField = createElement('input', { type: 'text', class: 'game-input', placeholder: 'Type the character or decimal value here', autocomplete: 'off', autocorrect: 'off', autocapitalize: 'off', spellcheck: 'false' });
+                    this.inputField.addEventListener('keydown', event => {
+                        if (event.key === 'Enter') {
+                            event.preventDefault();
+                            this.submitAnswer();
+                        }
+                    });
+                    inputWrapper.appendChild(this.inputField);
+                    this.container.appendChild(inputWrapper);
+                    this.feedbackLine = createElement('p', { class: 'hint-line', text: 'You have 10 seconds per round. Every 5 correct answers, the time limit gets shorter.' });
+                    this.container.appendChild(this.feedbackLine);
+                    const controls = createElement('div', { class: 'button-group' });
+                    const restart = createElement('button', { class: 'btn primary', type: 'button', text: 'Restart' });
+                    restart.addEventListener('click', () => this.start());
+                    const close = createElement('button', { class: 'btn secondary', type: 'button', text: 'Close' });
+                    close.addEventListener('click', this.close);
+                    controls.appendChild(restart);
+                    controls.appendChild(close);
+                    this.container.appendChild(controls);
+                },
+                renderQuestion() {
+                    if (this.state.visibilityCleanup) this.state.visibilityCleanup();
+                    this.state.currentBinary = this.nextBinary();
+                    this.state.timerEnd = Date.now() + this.state.timeLimit;
+                    this.state.answersAllowed = true;
+                    this.binaryLine.textContent = this.state.currentBinary;
+                    this.inputField.value = '';
+                    this.inputField.focus();
+                    this.updateStatus();
+                    this.updateTimer();
+                    this.state.visibilityCleanup = visibleTimeRunner((status, delta) => {
+                        if (status === 'pause') this.pauseTimer();
+                        if (status === 'resume') this.resumeTimer(delta);
+                    });
+                },
+                nextBinary() {
+                    if (binaryPointer >= binaryOrder.length) {
+                        binaryOrder = shuffle(binaryValues);
+                        binaryPointer = 0;
+                    }
+                    return binaryOrder[binaryPointer++].toString(2).padStart(8, '0');
+                },
+                updateStatus() {
+                    this.scoreDisplay.textContent = `Score: ${this.state.score}`;
+                    this.comboDisplay.textContent = `Combo: ${this.state.streak}`;
+                    this.multiplierDisplay.textContent = `Multiplier: ${this.state.multiplier.toFixed(1)}x`;
+                },
+                updateTimer() {
+                    const now = Date.now();
+                    const remaining = Math.max(0, this.state.timerEnd - now);
+                    this.timerFill.style.width = `${(remaining / this.state.timeLimit) * 100}%`;
+                    if (remaining <= 0) {
+                        this.handleTimeout();
+                    } else {
+                        this.state.timerRaf = requestAnimationFrame(() => this.updateTimer());
+                    }
+                },
+                pauseTimer() {
+                    if (this.state.timerRaf) cancelAnimationFrame(this.state.timerRaf);
+                    this.state.paused = true;
+                    this.state.pauseRemaining = this.state.timerEnd - Date.now();
+                },
+                resumeTimer(delta) {
+                    if (!this.state.paused) return;
+                    this.state.paused = false;
+                    this.state.timerEnd = Date.now() + Math.max(0, this.state.pauseRemaining);
+                    this.updateTimer();
+                },
+                submitAnswer() {
+                    if (!this.state.answersAllowed) return;
+                    const raw = normalizeInput(this.inputField.value);
+                    if (!raw) return;
+                    this.state.answersAllowed = false;
+                    if (this.state.timerRaf) cancelAnimationFrame(this.state.timerRaf);
+                    const correctChar = String.fromCharCode(parseInt(this.state.currentBinary, 2));
+                    const correctDecimal = String(parseInt(this.state.currentBinary, 2));
+                    const user = raw;
+                    const accepted = [correctChar, correctDecimal];
+                    const isCorrect = accepted.some(ans => ans === user);
+                    if (isCorrect) {
+                        this.state.score += Math.round(10 * this.state.multiplier);
+                        this.state.streak += 1;
+                        if (this.state.streak % 3 === 0) this.state.multiplier += 0.5;
+                        if (this.state.streak % 5 === 0 && this.state.timeLimit > 3000) this.state.timeLimit = Math.max(3000, this.state.timeLimit - 500);
+                        this.feedbackLine.textContent = `${this.state.currentBinary} → ${correctDecimal} → ${correctChar}`;
+                        this.renderQuestion();
+                    } else {
+                        this.state.lives -= 1;
+                        this.state.streak = 0;
+                        this.state.multiplier = 1;
+                        this.feedbackLine.textContent = `Wrong. ${this.state.currentBinary} → ${correctDecimal} → ${correctChar}`;
+                        this.updateStatus();
+                        if (this.state.lives <= 0) this.endBinary(); else setTimeout(() => this.renderQuestion(), 1000);
+                    }
+                },
+                handleTimeout() {
+                    if (!this.state.answersAllowed) return;
+                    this.state.answersAllowed = false;
+                    this.state.lives -= 1;
+                    this.state.streak = 0;
+                    this.state.multiplier = 1;
+                    const correctDecimal = String(parseInt(this.state.currentBinary, 2));
+                    const correctChar = String.fromCharCode(parseInt(this.state.currentBinary, 2));
+                    this.feedbackLine.textContent = `Timeout. ${this.state.currentBinary} → ${correctDecimal} → ${correctChar}`;
+                    this.updateStatus();
+                    if (this.state.lives <= 0) this.endBinary(); else setTimeout(() => this.renderQuestion(), 1000);
+                },
+                endBinary() {
+                    this.container.innerHTML = '';
+                    const result = createElement('div', { class: 'game-section' });
+                    result.appendChild(createElement('div', { class: 'panel' }, []));
+                    result.querySelector('.panel').appendChild(createElement('p', { class: 'panel-copy', text: 'Binary decoder complete. Your final score is shown below.' }));
+                    const stats = createElement('div', { class: 'stats-grid' });
+                    stats.appendChild(this.createStat('Final score', this.state.score));
+                    stats.appendChild(this.createStat('Lives left', this.state.lives));
+                    stats.appendChild(this.createStat('Final combo', this.state.streak));
+                    stats.appendChild(this.createStat('Time limit', `${this.state.timeLimit / 1000}s`));
+                    result.appendChild(stats);
+                    const actions = createElement('div', { class: 'button-group' });
+                    const retry = createElement('button', { class: 'btn primary', type: 'button', text: 'Play again' });
+                    retry.addEventListener('click', () => this.start());
+                    const close = createElement('button', { class: 'btn secondary', type: 'button', text: 'Close' });
+                    close.addEventListener('click', this.close);
+                    actions.appendChild(retry);
+                    actions.appendChild(close);
+                    result.appendChild(actions);
+                    this.container.appendChild(result);
+                },
+                createStat(label, value) {
+                    const box = createElement('div', { class: 'stat-box' });
+                    box.appendChild(createElement('p', { class: 'stat-value', text: String(value) }));
+                    box.appendChild(createElement('p', { class: 'stat-label', text: label }));
+                    return box;
+                }
+            },
+            subnet: {
+                init(container, close) {
+                    this.container = container;
+                    this.close = close;
+                    this.state = { questionIndex: 0, score: 0, total: 10, current: null, explanation: '' };
+                    this.render();
+                },
+                start() {
+                    this.state.questionIndex = 0;
+                    this.state.score = 0;
+                    this.state.explanation = '';
+                    this.renderQuestion();
+                },
+                cleanup() {},
+                render() {
+                    this.container.innerHTML = '';
+                    const intro = createElement('div', { class: 'panel' });
+                    intro.appendChild(createElement('p', { class: 'panel-copy', text: 'Answer 10 subnetting questions. All values are calculated by the game logic.' }));
+                    this.container.appendChild(intro);
+                    const body = createElement('div', { class: 'game-section' });
+                    this.questionCard = createElement('div', { class: 'panel' });
+                    body.appendChild(this.questionCard);
+                    const inputGroup = createElement('div', { class: 'input-row' });
+                    this.answerInput = createElement('input', { type: 'text', class: 'game-input', placeholder: 'Type answer here', autocomplete: 'off' });
+                    this.answerInput.addEventListener('keydown', e => {
+                        if (e.key === 'Enter') { e.preventDefault(); this.submitAnswer(); }
+                    });
+                    inputGroup.appendChild(this.answerInput);
+                    body.appendChild(inputGroup);
+                    this.feedback = createElement('p', { class: 'hint-line', text: '' });
+                    body.appendChild(this.feedback);
+                    const controls = createElement('div', { class: 'button-group' });
+                    const submit = createElement('button', { class: 'btn primary', type: 'button', text: 'Submit' });
+                    submit.addEventListener('click', () => this.submitAnswer());
+                    const close = createElement('button', { class: 'btn secondary', type: 'button', text: 'Close' });
+                    close.addEventListener('click', this.close);
+                    controls.appendChild(submit);
+                    controls.appendChild(close);
+                    body.appendChild(controls);
+                    this.container.appendChild(body);
+                    this.renderQuestion();
+                },
+                renderQuestion() {
+                    const index = this.state.questionIndex;
+                    const type = subnetQuestionTypes[index % subnetQuestionTypes.length];
+                    const question = this.createSubnetQuestion(type);
+                    this.state.current = question;
+                    this.questionCard.innerHTML = '';
+                    this.questionCard.appendChild(createElement('p', { class: 'panel-title', text: `Question ${index + 1} of ${this.state.total}` }));
+                    this.questionCard.appendChild(createElement('p', { class: 'panel-copy', text: question.prompt }));
+                    this.answerInput.value = '';
+                    this.answerInput.focus();
+                    this.feedback.textContent = '';
+                },
+                submitAnswer() {
+                    const raw = normalizeInput(this.answerInput.value);
+                    if (!raw || !this.state.current) return;
+                    const correct = this.state.current.answer;
+                    const normalizedRaw = raw.replace(/\s+/g, '');
+                    const normalizedCorrect = String(correct).replace(/\s+/g, '');
+                    const accepted = [normalizedCorrect, String(correct)];
+                    const isCorrect = accepted.some(val => val.toLowerCase() === normalizedRaw.toLowerCase());
+                    if (isCorrect) {
+                        this.state.score += 10;
+                        this.feedback.textContent = `Correct. ${this.state.current.explanation}`;
+                    } else {
+                        this.feedback.textContent = `Wrong. Correct answer: ${correct}. ${this.state.current.explanation}`;
+                    }
+                    this.state.questionIndex += 1;
+                    this.answerInput.disabled = true;
+                    setTimeout(() => {
+                        if (this.state.questionIndex >= this.state.total) {
+                            this.finish();
+                        } else {
+                            this.answerInput.disabled = false;
+                            this.renderQuestion();
+                        }
+                    }, 1000);
+                },
+                finish() {
+                    const accuracy = Math.round((this.state.score / (this.state.total * 10)) * 100);
+                    let label = 'Did you skip the subnetting module?';
+                    if (accuracy >= 50 && accuracy <= 70) label = 'Decent. CCNA is still far though';
+                    if (accuracy >= 80 && accuracy <= 90) label = 'You\'ve been doing labs';
+                    if (accuracy === 100) label = 'Perfect. You are the subnetting module';
+                    this.container.innerHTML = '';
+                    const result = createElement('div', { class: 'game-section' });
+                    result.appendChild(createElement('div', { class: 'panel' }, []));
+                    result.querySelector('.panel').appendChild(createElement('p', { class: 'panel-copy', text: 'Subnet challenge complete. Review your score and study the explanations.' }));
+                    const stats = createElement('div', { class: 'stats-grid' });
+                    stats.appendChild(this.createStat('Final score', this.state.score));
+                    stats.appendChild(this.createStat('Accuracy', `${accuracy}%`));
+                    stats.appendChild(this.createStat('Questions', `${this.state.total}`));
+                    stats.appendChild(this.createStat('Correct', `${this.state.score / 10}`));
+                    result.appendChild(stats);
+                    result.appendChild(createElement('p', { class: 'panel-copy', text: label }));
+                    const actions = createElement('div', { class: 'button-group' });
+                    const retry = createElement('button', { class: 'btn primary', type: 'button', text: 'Play again' });
+                    retry.addEventListener('click', () => this.start());
+                    const close = createElement('button', { class: 'btn secondary', type: 'button', text: 'Close' });
+                    close.addEventListener('click', this.close);
+                    actions.appendChild(retry);
+                    actions.appendChild(close);
+                    result.appendChild(actions);
+                    this.container.appendChild(result);
+                },
+                createSubnetQuestion(type) {
+                    const cidr = type === 'subnetsFrom24' ? 24 + Math.floor(Math.random() * 7) : 16 + Math.floor(Math.random() * 15);
+                    const ip = `${Math.floor(Math.random() * 223) + 1}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
+                    const ipInt = this.ipToInt(ip);
+                    const mask = this.cidrToMask(cidr);
+                    const network = this.intToIp(ipInt & mask);
+                    const broadcast = this.intToIp((ipInt & mask) | (~mask >>> 0));
+                    const first = cidr >= 31 ? network : this.intToIp((ipInt & mask) + 1);
+                    const last = cidr >= 31 ? broadcast : this.intToIp((ipInt & mask) + Math.max(1, (2 ** (32 - cidr)) - 2));
+                    const usable = cidr >= 31 ? 0 : (2 ** (32 - cidr)) - 2;
+                    const maskText = this.intToIp(mask);
+                    switch (type) {
+                        case 'mask':
+                            return { prompt: `What is the subnet mask for /${cidr}?`, answer: maskText, explanation: `A /${cidr} prefix corresponds to ${maskText}.` };
+                        case 'hosts':
+                            return { prompt: `How many usable hosts in /${cidr}?`, answer: String(usable), explanation: `Usable hosts = 2^(32-${cidr}) - 2.` };
+                        case 'network':
+                            return { prompt: `What is the network address of ${ip}/${cidr}?`, answer: network, explanation: `Network address is IP AND mask.` };
+                        case 'broadcast':
+                            return { prompt: `What is the broadcast address of ${ip}/${cidr}?`, answer: broadcast, explanation: `Broadcast address sets host bits to 1.` };
+                        case 'subnetsFrom24':
+                            return { prompt: `How many subnets does /${cidr} create from a /24?`, answer: String(2 ** (cidr - 24)), explanation: `Each extra bit doubles subnets from /24.` };
+                        case 'sameSubnet': {
+                            const ipIntA = this.ipToInt(ip);
+                            const sameNetwork = Math.random() < 0.5;
+                            let otherInt;
+                            if (sameNetwork) {
+                                const hostBit = 1 << Math.floor(Math.random() * (32 - cidr));
+                                otherInt = ipIntA ^ hostBit;
+                            } else {
+                                const networkBit = 1 << (32 - cidr);
+                                otherInt = ipIntA ^ networkBit;
+                            }
+                            const otherIp = this.intToIp(otherInt);
+                            const same = this.inSameSubnet(ip, otherIp, cidr);
+                            return { prompt: `Is ${ip} in the same subnet as ${otherIp} given /${cidr}? (Yes or No)`, answer: same ? 'Yes' : 'No', explanation: `Compare the network address of both IPs with /${cidr}.` };
+                        }
+                        case 'firstHost':
+                            return { prompt: `What is the first usable host of ${ip}/${cidr}?`, answer: first, explanation: `First host is network address plus one.` };
+                        case 'lastHost':
+                            return { prompt: `What is the last usable host of ${ip}/${cidr}?`, answer: last, explanation: `Last host is broadcast minus one.` };
+                        default:
+                            return { prompt: 'Subnet question', answer: '0', explanation: '' };
+                    }
+                },
+                ipToInt(ip) {
+                    return ip.split('.').reduce((acc, octet) => (acc << 8) + Number(octet), 0) >>> 0;
+                },
+                intToIp(int) {
+                    return `${(int >>> 24) & 255}.${(int >>> 16) & 255}.${(int >>> 8) & 255}.${int & 255}`;
+                },
+                cidrToMask(cidr) {
+                    return cidr === 0 ? 0 : ((0xffffffff << (32 - cidr)) >>> 0);
+                },
+                inSameSubnet(ipA, ipB, cidr) {
+                    return (this.ipToInt(ipA) & this.cidrToMask(cidr)) === (this.ipToInt(ipB) & this.cidrToMask(cidr));
+                },
+                createStat(label, value) {
+                    const box = createElement('div', { class: 'stat-box' });
+                    box.appendChild(createElement('p', { class: 'stat-value', text: String(value) }));
+                    box.appendChild(createElement('p', { class: 'stat-label', text: label }));
+                    return box;
+                }
+            },
+            output: {
+                init(container, close) {
+                    this.container = container;
+                    this.close = close;
+                    this.state = { snippets: shuffle(codeSnippets), index: 0, score: 0, current: null };
+                    this.render();
+                },
+                start() {
+                    this.state.snippets = shuffle(codeSnippets);
+                    this.state.index = 0;
+                    this.state.score = 0;
+                    this.renderQuestion();
+                },
+                cleanup() {},
+                render() {
+                    this.container.innerHTML = '';
+                    const intro = createElement('div', { class: 'panel' });
+                    intro.appendChild(createElement('p', { class: 'panel-copy', text: 'Read the snippet, select the correct output, and get detailed feedback on any mismatch.' }));
+                    this.container.appendChild(intro);
+                    const body = createElement('div', { class: 'game-section' });
+                    this.codeBlock = createElement('pre', { class: 'code-block', text: '' });
+                    body.appendChild(this.codeBlock);
+                    const inputGroup = createElement('div', { class: 'input-row' });
+                    this.answerInput = createElement('input', { type: 'text', class: 'game-input', placeholder: 'Expected output', autocomplete: 'off' });
+                    this.answerInput.addEventListener('keydown', e => {
+                        if (e.key === 'Enter') { e.preventDefault(); this.submitAnswer(); }
+                    });
+                    inputGroup.appendChild(this.answerInput);
+                    body.appendChild(inputGroup);
+                    const hint = createElement('p', { class: 'small-text', text: 'For multi-line output, separate answers with new lines in the same field.' });
+                    body.appendChild(hint);
+                    const explanation = createElement('textarea', { class: 'input-row', placeholder: 'Optional: explain why this output occurs', rows: '3' });
+                    body.appendChild(explanation);
+                    this.feedback = createElement('p', { class: 'hint-line', text: '' });
+                    body.appendChild(this.feedback);
+                    const controls = createElement('div', { class: 'button-group' });
+                    const submit = createElement('button', { class: 'btn primary', type: 'button', text: 'Submit' });
+                    submit.addEventListener('click', () => this.submitAnswer());
+                    const close = createElement('button', { class: 'btn secondary', type: 'button', text: 'Close' });
+                    close.addEventListener('click', this.close);
+                    controls.appendChild(submit);
+                    controls.appendChild(close);
+                    body.appendChild(controls);
+                    this.container.appendChild(body);
+                    this.renderQuestion();
+                },
+                renderQuestion() {
+                    this.state.current = this.state.snippets[this.state.index];
+                    const code = this.state.current.code;
+                    this.codeBlock.innerHTML = this.highlightCode(code);
+                    this.answerInput.value = '';
+                    this.answerInput.focus();
+                    this.feedback.textContent = `Snippet ${this.state.index + 1} of 10.`;
+                },
+                submitAnswer() {
+                    const raw = normalizeInput(this.answerInput.value);
+                    if (!raw || !this.state.current) return;
+                    const accepted = [normalizeAnswer(this.state.current.output)];
+                    const normalizedRaw = normalizeAnswer(raw);
+                    const match = accepted.some(answer => answer.toLowerCase() === normalizedRaw.toLowerCase());
+                    if (match) {
+                        this.state.score += 10;
+                        this.feedback.textContent = `Correct. ${this.state.current.explanation}`;
+                    } else {
+                        this.feedback.textContent = `Wrong. Output: ${this.state.current.output}. ${this.state.current.explanation}`;
+                    }
+                    this.state.index += 1;
+                    if (this.state.index >= 10) {
+                        setTimeout(() => this.finish(), 1000);
+                    } else {
+                        setTimeout(() => this.renderQuestion(), 1000);
+                    }
+                },
+                highlightCode(code) {
+                    const escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    return escaped.replace(/(console|print|typeof|let|const|function|return|if|else|for|while|switch|case|break|true|false|null|undefined|str|len|range|format|in|not|and|or)/g, '<span class="token-keyword">$1</span>')
+                        .replace(/("[^"]*"|'[^']*')/g, '<span class="token-string">$1</span>')
+                        .replace(/(\b\d+\b)/g, '<span class="token-number">$1</span>');
+                },
+                finish() {
+                    const score = this.state.score;
+                    let label = 'You\'re still reading the docs. Fair.';
+                    if (score >= 40 && score <= 60) label = 'You know the basics. Keep going.';
+                    if (score > 60 && score <= 90) label = 'You\'ve actually written code before.';
+                    if (score === 100) label = 'You are the compiler.';
+                    this.container.innerHTML = '';
+                    const result = createElement('div', { class: 'game-section' });
+                    result.appendChild(createElement('div', { class: 'panel' }, []));
+                    result.querySelector('.panel').appendChild(createElement('p', { class: 'panel-copy', text: 'Code output quiz complete. Compare your results and try again to improve.' }));
+                    const stats = createElement('div', { class: 'stats-grid' });
+                    stats.appendChild(this.createStat('Score', score));
+                    stats.appendChild(this.createStat('Correct', `${score / 10} / 10`));
+                    stats.appendChild(this.createStat('Accuracy', `${score}%`));
+                    stats.appendChild(this.createStat('Label', label));
+                    result.appendChild(stats);
+                    const actions = createElement('div', { class: 'button-group' });
+                    const retry = createElement('button', { class: 'btn primary', type: 'button', text: 'Play again' });
+                    retry.addEventListener('click', () => this.start());
+                    const close = createElement('button', { class: 'btn secondary', type: 'button', text: 'Close' });
+                    close.addEventListener('click', this.close);
+                    actions.appendChild(retry);
+                    actions.appendChild(close);
+                    result.appendChild(actions);
+                    this.container.appendChild(result);
+                },
+                createStat(label, value) {
+                    const box = createElement('div', { class: 'stat-box' });
+                    box.appendChild(createElement('p', { class: 'stat-value', text: String(value) }));
+                    box.appendChild(createElement('p', { class: 'stat-label', text: label }));
+                    return box;
+                }
+            },
+            budget: {
+                init(container, close) {
+                    this.container = container;
+                    this.close = close;
+                    this.state = { budget: 500.0, cart: {}, reaction: '', summary: '' };
+                    this.render();
+                },
+                start() {
+                    this.state = { budget: 500.0, cart: {}, reaction: '', summary: '' };
+                    this.updateBudget();
+                },
+                cleanup() {},
+                render() {
+                    this.container.innerHTML = '';
+                    const intro = createElement('div', { class: 'panel' });
+                    intro.appendChild(createElement('p', { class: 'panel-copy', text: 'Spend ₱500 on student essentials, food, and load. Try to reach zero without going over.' }));
+                    this.container.appendChild(intro);
+                    const statusCard = createElement('div', { class: 'panel summary-row' });
+                    this.budgetLine = createElement('p', { class: 'summary-amount', text: formatCurrency(this.state.budget) });
+                    this.budgetNote = createElement('p', { class: 'summary-note', text: 'Remaining budget' });
+                    statusCard.appendChild(this.budgetLine);
+                    statusCard.appendChild(this.budgetNote);
+                    this.container.appendChild(statusCard);
+                    const mainGrid = createElement('div', { class: 'responsive-grid' });
+                    const itemPanel = createElement('div', { class: 'panel' });
+                    itemPanel.appendChild(createElement('p', { class: 'panel-title', text: 'Shop items' }));
+                    this.itemGrid = createElement('div', { class: 'item-grid' });
+                    budgetItems.forEach(item => {
+                        const card = createElement('div', { class: 'item-card' });
+                        const top = createElement('div', { class: 'item-top' });
+                        top.appendChild(createElement('div', { class: 'item-emoji', text: item.emoji }));
+                        const meta = createElement('div');
+                        meta.appendChild(createElement('p', { class: 'item-name', text: item.name }));
+                        meta.appendChild(createElement('p', { class: 'item-price', text: formatCurrency(item.price) }));
+                        top.appendChild(meta);
+                        card.appendChild(top);
+                        card.appendChild(createElement('p', { class: 'item-desc', text: item.desc }));
+                        const addButton = createElement('button', { class: 'btn primary', type: 'button', text: 'Add' });
+                        addButton.addEventListener('click', () => this.addItem(item.id));
+                        card.appendChild(addButton);
+                        this.itemGrid.appendChild(card);
+                    });
+                    itemPanel.appendChild(this.itemGrid);
+                    mainGrid.appendChild(itemPanel);
+                    const cartPanel = createElement('div', { class: 'panel' });
+                    cartPanel.appendChild(createElement('p', { class: 'panel-title', text: 'Cart' }));
+                    this.cartList = createElement('div', { class: 'cart-list' });
+                    cartPanel.appendChild(this.cartList);
+                    this.summaryCard = createElement('div', { class: 'panel summary-row' });
+                    this.summaryText = createElement('p', { class: 'summary-note', text: 'Add items to the cart to see the summary.' });
+                    this.summaryCard.appendChild(this.summaryText);
+                    cartPanel.appendChild(this.summaryCard);
+                    const cartButtons = createElement('div', { class: 'button-group' });
+                    const endButton = createElement('button', { class: 'btn primary', type: 'button', text: 'End shopping' });
+                    endButton.addEventListener('click', () => this.finishShopping());
+                    const close = createElement('button', { class: 'btn secondary', type: 'button', text: 'Close' });
+                    close.addEventListener('click', this.close);
+                    cartButtons.appendChild(endButton);
+                    cartButtons.appendChild(close);
+                    cartPanel.appendChild(cartButtons);
+                    mainGrid.appendChild(cartPanel);
+                    this.container.appendChild(mainGrid);
+                    this.updateCart();
+                },
+                addItem(itemId) {
+                    if (!this.state.cart[itemId]) this.state.cart[itemId] = 0;
+                    this.state.cart[itemId] += 1;
+                    this.updateCart();
+                },
+                removeItem(itemId) {
+                    if (!this.state.cart[itemId]) return;
+                    this.state.cart[itemId] -= 1;
+                    if (this.state.cart[itemId] <= 0) delete this.state.cart[itemId];
+                    this.updateCart();
+                },
+                updateCart() {
+                    const items = Object.entries(this.state.cart).map(([id, count]) => {
+                        const item = budgetItems.find(i => i.id === id);
+                        return { ...item, count };
+                    });
+                    const spent = items.reduce((sum, item) => sum + item.price * item.count, 0);
+                    this.state.budget = 500 - spent;
+                    this.budgetLine.textContent = formatCurrency(this.state.budget);
+                    this.budgetLine.style.color = this.state.budget === 0 ? 'var(--success)' : this.state.budget < 0 ? 'var(--danger)' : this.state.budget < 50 ? 'var(--warning)' : 'var(--text)';
+                    this.budgetNote.textContent = this.state.budget === 0 ? 'Budget perfect. Panalo.' : this.state.budget < 0 ? `Utang na naman: ${formatCurrency(Math.abs(this.state.budget))}` : 'Remaining budget';
+                    this.cartList.innerHTML = '';
+                    if (items.length === 0) {
+                        this.cartList.appendChild(createElement('p', { class: 'panel-copy', text: 'Your cart is empty.' }));
+                    } else {
+                        items.forEach(item => {
+                            const row = createElement('div', { class: 'cart-item' });
+                            const left = createElement('div');
+                            left.appendChild(createElement('p', { class: 'cart-name', text: `${item.name} × ${item.count}` }));
+                            left.appendChild(createElement('p', { class: 'cart-meta', text: `${formatCurrency(item.price)} each` }));
+                            const right = createElement('div', { class: 'cart-actions' });
+                            const remove = createElement('button', { class: 'card-button', type: 'button', text: '-' });
+                            remove.addEventListener('click', () => this.removeItem(item.id));
+                            right.appendChild(remove);
+                            row.appendChild(left);
+                            row.appendChild(right);
+                            this.cartList.appendChild(row);
+                        });
+                    }
+                    const categoryTotals = items.reduce((totals, item) => {
+                        totals[item.category] = (totals[item.category] || 0) + item.price * item.count;
+                        return totals;
+                    }, {});
+                    this.summaryText.textContent = `Spent ${formatCurrency(spent)}. ${this.state.budget >= 0 ? formatCurrency(this.state.budget) : `Over budget by ${formatCurrency(Math.abs(this.state.budget))}`}.`;
+                    this.state.categoryTotals = categoryTotals;
+                },
+                finishShopping() {
+                    const items = Object.entries(this.state.cart).map(([id, count]) => {
+                        const item = budgetItems.find(i => i.id === id);
+                        return { ...item, count };
+                    });
+                    const spent = items.reduce((sum, item) => sum + item.price * item.count, 0);
+                    const categories = this.state.categoryTotals;
+                    let reaction = 'Balanced. Responsible. Your parents would be proud.';
+                    if ((categories.food || 0) > (categories.tech || 0) && (categories.food || 0) > (categories.load || 0)) reaction = 'You ate well. Grades not guaranteed.';
+                    if ((categories.tech || 0) > (categories.food || 0) && (categories.tech || 0) > (categories.load || 0)) reaction = 'Nerd detected. Justified.';
+                    if ((categories.load || 0) > (categories.food || 0) && (categories.load || 0) > (categories.tech || 0)) reaction = 'Screen time is real.';
+                    this.container.innerHTML = '';
+                    const finish = createElement('div', { class: 'game-section' });
+                    finish.appendChild(createElement('div', { class: 'panel' }, []));
+                    finish.querySelector('.panel').appendChild(createElement('p', { class: 'panel-copy', text: 'Shopping complete. Here is your spending summary.' }));
+                    const summary = createElement('div', { class: 'summary-row' });
+                    summary.appendChild(createElement('p', { class: 'summary-amount', text: formatCurrency(spent) }));
+                    summary.appendChild(createElement('p', { class: 'summary-note', text: 'Total spent' }));
+                    summary.appendChild(createElement('p', { class: 'summary-amount', text: this.state.budget >= 0 ? formatCurrency(this.state.budget) : `-${formatCurrency(Math.abs(this.state.budget))}` }));
+                    summary.appendChild(createElement('p', { class: 'summary-note', text: 'Remaining' }));
+                    finish.appendChild(summary);
+                    if (this.state.budget === 0) {
+                        finish.appendChild(createElement('p', { class: 'panel-copy', text: 'Perfect budget. Peace of mind unlocked.' }));
+                        finish.appendChild(createElement('p', { class: 'panel-copy', text: 'Hidden item unlocked: Peace of mind (₱0)' }));
+                    }
+                    finish.appendChild(createElement('p', { class: 'panel-copy', text: reaction }));
+                    const list = createElement('div', { class: 'cart-list' });
+                    items.forEach(item => {
+                        const entry = createElement('div', { class: 'cart-item' });
+                        entry.appendChild(createElement('div', { class: 'cart-name', text: `${item.emoji} ${item.name} × ${item.count}` }));
+                        entry.appendChild(createElement('div', { class: 'cart-meta', text: formatCurrency(item.price * item.count) }));
+                        list.appendChild(entry);
+                    });
+                    if (this.state.budget === 0) {
+                        list.appendChild(createElement('div', { class: 'cart-item' }, [createElement('div', { class: 'cart-name', text: '🧘 Peace of mind (₱0)' }), createElement('div', { class: 'cart-meta', text: 'Free' })]));
+                    }
+                    finish.appendChild(list);
+                    const actions = createElement('div', { class: 'button-group' });
+                    const retry = createElement('button', { class: 'btn primary', type: 'button', text: 'Start again' });
+                    retry.addEventListener('click', () => this.start());
+                    const close = createElement('button', { class: 'btn secondary', type: 'button', text: 'Close' });
+                    close.addEventListener('click', this.close);
+                    actions.appendChild(retry);
+                    actions.appendChild(close);
+                    finish.appendChild(actions);
+                    this.container.appendChild(finish);
+                }
+            }
+        };
+
+        modalClose.addEventListener('click', closeModal);
+        gameModal.addEventListener('click', event => { if (event.target === gameModal) closeModal(); });
+        themeToggle.addEventListener('click', toggleTheme);
+        const savedTheme = sessionStorage.getItem('portfolioTheme');
+        if (savedTheme === 'light') setTheme('light'); else setTheme('dark');
+        buildLobby();
+    })();
+    </script>
+</body>
+</html>
